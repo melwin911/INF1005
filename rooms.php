@@ -188,7 +188,6 @@
         <div class="row justify-content-center text-center mb-5">
           <div class="col-md-7">
             <h2 class="heading" data-aos="fade">Great Offers</h2>
-            <p data-aos="fade">Some shit</p>
           </div>
         </div>
       
