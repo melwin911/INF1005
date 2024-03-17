@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <?php
-    include "inc/head.inc.php";
+    include "head.inc.php";
     ?>
 
     <body>
+
+    <?php
+    include "header.inc.php";
+    ?>
         <?php
-        include "inc/nav.inc.php";
+        include "navbar.inc.php";
         ?>
+
+        <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
+      <div class="container">
+        <div class="row site-hero-inner justify-content-center align-items-center">
+          <div class="col-md-10 text-center" data-aos="fade">
+            <h1 class="heading mb-3">Rooms</h1>
+            <ul class="custom-breadcrumbs mb-4">
+              <li><a href="index.php">Home</a></li>
+              <li>&bullet;</li>
+              <li><a href="rooms.php">Rooms</a></li>
+              <li>&bullet;</li>
+              <li><a href="about.php">About</a></li>
+              <li>&bullet;</li>
+              <li>Registration</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+        </section>
 
         <main class="container">
             <h1>Membership Registration</h1>
@@ -64,7 +87,7 @@
             </form>
         </main>
         <?php
-        include "inc/footer.inc.php";
+        include "footer.inc.php";
         ?>
     </body>
 </html>

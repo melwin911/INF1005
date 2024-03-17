@@ -2,24 +2,24 @@
 <html lang="en">
 
 <?php
-    include "inc/head.inc.php";
+    include "head.inc.php";
     ?>
 
   <body>
 
   <?php
-    include "inc/header.inc.php";
+    include "header.inc.php";
     ?>
      
             
-            <!-- Start of Navbar  -->
-            <?php
-            include "inc/navbar.inc.php";
-            ?>
-            <!-- End of navbar  -->
+  <!-- Start of Navbar  -->
+  <?php
+    include "navbar.inc.php";
+      ?>
+  <!-- End of navbar  -->
 
     <!-- start of head section -->
-    <section class="site-hero inner-page overlay">
+    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
@@ -42,21 +42,32 @@
 
     <div class="container section">
 
-      <div class="row justify-content-center text-center mb-5">
-        <div class="col-md-7 mb-5">
-          <h2 class="heading" data-aos="fade-up">Login</h2>
-        </div>
-      </div>
+      <main class="container" id="registration"> 
+        <h1>Member Login</h1> 
+        <p> 
+            Existing members log in here. For new members, please sign up at 
+            <a href="registration.php">Registration page</a>. 
+        </p> 
+        <form action="process_login.php" method="post"> 
+            <div class="mb-3"> 
+                <label for="email" class="form-label">Email:</label> 
+                <input type="text" id="email" name="email" class="form-control" placeholder="Enter email"> 
+            </div> 
+            <div class="mb-3"> 
+                <label for="pwd" class="form-label">Password:</label> 
+                <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
+            </div> 
 
-    
-    
-   
+            <div class="mb-3"> 
+                <button type="submit" class="btn btn-primary">Submit</button> 
+            </div> 
+        </form>
+    </main>
    <!-- Start of footer -->
    <?php
-    include "inc/footer.inc.php";
+    include "footer.inc.php";
     ?>
 <!-- End of footer -->
-  
     
   </body>
 </html>
