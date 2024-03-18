@@ -40,8 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $success = false;
     } else {
         $pwd = $_POST["pwd"];
-        authenticateUser();
     }
+}
+
+if ($success) {
+    authenticateUser();
 }
 
 if ($success) {

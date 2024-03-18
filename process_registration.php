@@ -73,20 +73,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         {
             // Hash the password
             $hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
-            saveMemberToDB();
         }
     }
 }
 
 if ($success)
 {
-    echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
-    echo "<h3>Your registration is successful!</h3>";
-    echo "<h4><p>Thank you for signing up, " . $fname . " " .$lname . ".</p></h4>";
-    echo '<button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: white;">Log-in</a></button>';
-    echo '</div><br>';
+    saveMemberToDB();
+    if ($success) {
+        echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
+        echo "<h3>Your registration is successful!</h3>";
+        echo "<h4><p>Thank you for signing up, " . $fname . " " .$lname . ".</p></h4>";
+        echo '<button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: white;">Log-in</a></button>';
+        echo '</div><br>';
+    }
 }
-else
+if (!$success)
 {
     echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
     echo "<h3>Oops! </h3> <h4>The following input errors were detected:</h4>";
