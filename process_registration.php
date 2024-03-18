@@ -20,22 +20,45 @@ $success = true;
 // Check if form fields are set
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // Sanitize and validate first name
     $fname = sanitize_input($_POST["fname"]);
+    if (strlen($fname) > 45){
+        $errorMsg .= "First name is too long.<br>";
+        $success = false;
+    }
 
     // Sanitize and validate last name
     if (empty($_POST["lname"])) {
         $errorMsg .= "Last name is required.<br>";
         $success = false;
+    } else if (strlen($lname) > 45){
+        $errorMsg .= "Last name is too long.<br>";
+        $success = false;
     } else {
-        $lname = sanitize_input($_POST["lname"]);
+        $lname_sanitized = sanitize_input($_POST["lname"]);
+        if (strlen($lname_sanitized) > 45) {
+            $errorMsg .= "Last name is too long.<br>";
+            $success = false;
+        } else {
+            $lname = $lname_sanitized;
+        }
     }
 
     // Sanitize and validate gender
     if (empty($_POST["gender"])) {
         $errorMsg .= "Gender is required.<br>";
         $success = false;
+    } else if (strlen($gender) > 45) {
+        $errorMsg .= "Gender is too long.<br>";
+        $success = false;
     } else {
-        $gender = sanitize_input($_POST["gender"]);
+        $gender_sanitized = sanitize_input($_POST["gender"]);
+        if (strlen($gender_sanitized) > 45) {
+            $errorMsg .= "Gender is too long.<br>";
+            $success = false;
+        } else {
+            $gender = $gender_sanitized;
+        }
     }
 
     // Sanitize and validate email

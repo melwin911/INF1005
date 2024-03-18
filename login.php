@@ -51,7 +51,7 @@
         <form action="process_login.php" method="post"> 
             <div class="mb-3"> 
                 <label for="email" class="form-label">Email:</label> 
-                <input required type="email" id="email" name="email" class="form-control" placeholder="Enter email"> 
+                <input required maxlength="45" type="email" id="email" name="email" class="form-control" placeholder="Enter email"> 
             </div> 
             <div class="mb-3"> 
                 <label for="pwd" class="form-label">Password:</label> 
