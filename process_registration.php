@@ -1,107 +1,100 @@
+<head>
+    <title>Test Hotel</title>
+    <?php
+    include "head.inc.php";
+    ?>
+</head>
+
+<body>
+    <?php
+    include "navbar.inc.php";
+    include "headsection.inc.php";
+    ?>
+
 <?php
-$email = $gender = $firstname = $lastname = $password = $confirmPassword = $errorMsg = "";
+// Initialize variables
+$fname = $lname = $gender = $email = $pwd = $pwd_confirm = $hashed_pwd = "";
+$errorMsg = "";
 $success = true;
 
-if (empty($_POST["email"]))
-{
-    $errorMsg .= "Email is required.<br>";
-    $success = false;
-}
-else
-{
-    $email = sanitize_input($_POST["email"]);
-    // Additional check to make sure e-mail address is well-formed.
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $errorMsg .= "Invalid email format.<br>";
+// Check if form fields are set
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $fname = sanitize_input($_POST["fname"]);
+
+    // Sanitize and validate last name
+    if (empty($_POST["lname"])) {
+        $errorMsg .= "Last name is required.<br>";
         $success = false;
+    } else {
+        $lname = sanitize_input($_POST["lname"]);
     }
-    elseif(emailExists($email))
-    {
-        $errorMsg .= "Email already exists.<br>";
+
+    // Sanitize and validate gender
+    if (empty($_POST["gender"])) {
+        $errorMsg .= "Gender is required.<br>";
         $success = false;
+    } else {
+        $gender = sanitize_input($_POST["gender"]);
     }
-}
 
-if (empty($_POST["gender"]))
-{
-    $errorMsg .= "Gender is required.<br>";
-    $success = false;
-}
-else
-{
-    $gender = sanitize_input($_POST["gender"]);
-}
-
-if (empty($_POST["lname"]))
-{
-    $errorMsg .= "Last Name is required.<br>";
-    $success = false;
-}
-else
-{
-    $lastName = sanitize_input($_POST["lname"]);
-}
-
-if (empty($_POST["fname"]))
-{
-    $firstName = sanitize_input($_POST["fname"]);
-}
-else
-{
-    $firstName = sanitize_input($_POST["fname"]);
-}
-
-if (empty($_POST["pwd"]))
-{
-    $errorMsg .= "Password is required.<br>";
-    $success = false;
-}
-else
-{
-    $password = $_POST["pwd"]; // No need to sanitize password because it typically contain special characters
-}
-
-if (empty($_POST["pwd_confirm"]))
-{
-    $errorMsg .= "Confirm Password is required.<br>";
-    $success = false;
-}
-else
-{
-    $confirmPassword = $_POST["pwd_confirm"];
-    if ($confirmPassword !== $password)
-    {
-        $errorMsg .= "Passwords do not match.<br>";
+    // Sanitize and validate email
+    if (empty($_POST["email"])) {
+        $errorMsg .= "Email is required.<br>";
         $success = false;
+    } else {
+        $email = sanitize_input($_POST["email"]);
+        // Additional check to make sure email address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errorMsg .= "Invalid email format.<br>";
+            $success = false;
+        }
+    }
+
+    // Validate password
+    if (empty($_POST["pwd"])) {
+        $errorMsg .= "Password is required.<br>";
+        $success = false;
+    } else {
+        $pwd = $_POST["pwd"];
+    }
+
+    // Validate password confirmation
+    if (empty($_POST["pwd_confirm"])) {
+        $errorMsg .= "Password confirmation is required.<br>";
+        $success = false;
+    } else {
+        $pwd_confirm = $_POST["pwd_confirm"];
+        if ($pwd !== $pwd_confirm) {
+            $errorMsg .= "Passwords do not match.<br>";
+            $success = false;
+        }
+        else 
+        {
+            // Hash the password
+            $hashed_pwd = password_hash($pwd, PASSWORD_DEFAULT);
+            saveMemberToDB();
+        }
     }
 }
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && $success)
+if ($success)
 {
-    include "inc/head.inc.php";
-    include "inc/nav.inc.php";
-    echo '<div class="container registration-container">';
-    echo "<h1> Your registration is successful!</h1>";
-    echo "<h3 class='mb-4'>Thank you for signing up, " .$firstName." ". $lastName . ".</h3>"; // concatenate using (.)
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    echo '<a href="login.php" class="login-btn mt-3">Log-in</a>';
-    echo '</div>';
-    include "inc/footer.inc.php";
+    echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
+    echo "<h3>Your registration is successful!</h3>";
+    echo "<h4><p>Thank you for signing up, " . $fname . " " .$lname . ".</p></h4>";
+    echo '<button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: white;">Log-in</a></button>';
+    echo '</div><br>';
 }
-elseif ($_SERVER["REQUEST_METHOD"] == "POST")
+else
 {
-    include "inc/head.inc.php";
-    include "inc/nav.inc.php";
-    echo '<div class="container registration-container">';
-    echo "<h1> Oops!</h1>";
-    echo "<h3>The following input errors were detected:</h3>";
+    echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
+    echo "<h3>Oops! </h3> <h4>The following input errors were detected:</h4>";
     echo "<p>" . $errorMsg . "</p>";
-    echo '<a href="register.php" class="return-to-sign-up-btn mt-3">Return to Sign Up</a>';
-    echo '</div>';
-    include "inc/footer.inc.php";
+    echo '<button class="btn btn-primary"><a href="registration.php" style="text-decoration: none; color: white;">Return to Sign Up</a></button>';
+    echo '</div><br>';
 }
+
 /*
 * Helper function that checks input for malicious or unwanted content.
 */
@@ -113,50 +106,18 @@ function sanitize_input($data)
     return $data;
 }
 
-function emailExists($email) {
+/*
+* Helper function to write the member data to the database.
+*/
+function saveMemberToDB()
+{
+    global $fname, $lname, $gender, $email, $hashed_pwd, $errorMsg, $success;
     // Create database connection.
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
-        return false; // Return false if unable to read database config file.
-    }
-
-    $conn = new mysqli(
-        $config['servername'],
-        $config['username'],
-        $config['password'],
-        $config['dbname']
-    );
-
-    // Check connection
-    if ($conn->connect_error) {
-        return false; // Return false if unable to connect to the database.
-    }
-
-    // Prepare the statement:
-    $stmt = $conn->prepare("SELECT email FROM world_of_pets_members WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-    $exists = $stmt->num_rows > 0;
-
-    $stmt->close();
-    $conn->close();
-
-    return $exists;
-}
-
-function saveMemberToDB()
-{
-    global $firstName, $lastName, $email, $hashedPassword, $gender, $errorMsg, $success;
-    // Create database connection.
-    $config = parse_ini_file('/var/www/private/db-config.ini');
-    if (!$config)
-    {
         $errorMsg = "Failed to read database config file.";
         $success = false;
-    }
-    else
-    {
+    } else {
         $conn = new mysqli(
             $config['servername'],
             $config['username'],
@@ -164,28 +125,40 @@ function saveMemberToDB()
             $config['dbname']
         );
         // Check connection
-        if ($conn->connect_error)
-        {
+        if ($conn->connect_error) {
             $errorMsg = "Connection failed: " . $conn->connect_error;
             $success = false;
         }
-        else
-        {
+        // Check if the email already exists
+        $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            // Email already exists
+            $errorMsg .= "This email is already registered.<br>";
+            $success = false;
+        } else {
             // Prepare the statement:
-            $stmt = $conn->prepare("INSERT INTO world_of_pets_members
+            $stmt = $conn->prepare("INSERT INTO hotel_members
             (fname, lname, gender, email, password) VALUES (?, ?, ?, ?, ?)");
             // Bind & execute the query statement:
-            $stmt->bind_param("sssss", $firstName, $lastName, $gender, $email, $hashedPassword); // 's' means string type
-            if (!$stmt->execute())
-            {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $stmt->bind_param("sssss", $fname, $lname, $gender, $email, $hashed_pwd);
+            if (!$stmt->execute()) {
+                $errorMsg = "Execute failed: (" . $stmt->errno . ") " .
+                    $stmt->error;
                 $success = false;
-             }
+            }
             $stmt->close();
         }
         $conn->close();
     }
 }
 
-saveMemberToDB()
 ?>
+
+<?php
+    include "footer.inc.php";
+    ?>
+
+</body>

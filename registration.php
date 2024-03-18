@@ -51,13 +51,13 @@
 
                 <div class="mb-3">
                     <label for="male">Male</label>
-                    <input type="radio" id="male" name="gender" value="male">
+                    <input type="radio" id="male" name="gender" value="male" required>
 
                     <label for="female">Female</label>
-                    <input type="radio" id="female" name="gender" value="female">
+                    <input type="radio" id="female" name="gender" value="female" required>
 
                     <label for="other">Other</label>
-                    <input type="radio" id="other" name="gender" value="other">
+                    <input type="radio" id="other" name="gender" value="other" required>
                 </div>
 
                 <div class="mb-3">

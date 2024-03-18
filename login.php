@@ -51,11 +51,11 @@
         <form action="process_login.php" method="post"> 
             <div class="mb-3"> 
                 <label for="email" class="form-label">Email:</label> 
-                <input type="text" id="email" name="email" class="form-control" placeholder="Enter email"> 
+                <input required type="text" id="email" name="email" class="form-control" placeholder="Enter email"> 
             </div> 
             <div class="mb-3"> 
                 <label for="pwd" class="form-label">Password:</label> 
-                <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
+                <input required type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
             </div> 
 
             <div class="mb-3"> 
