@@ -2,6 +2,8 @@
 
 	'use strict';
 
+
+
   $('.site-menu-toggle').click(function(){
     var $this = $(this);
     if ( $('body').hasClass('menu-open') ) {
@@ -15,6 +17,77 @@
     }
   });
 
+  $(document).ready(function() {
+    // Initialize datepickers
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+      startDate: new Date()
+    });
+
+    // Form submission
+    $('#availabilityForm').submit(function(event) {
+      event.preventDefault();
+      let formData = {
+        checkin_date: $('#checkin_date').val(),
+        checkout_date: $('#checkout_date').val(),
+        rooms: $('#rooms').val(),
+        guests: $('#guests').val()
+      };
+
+      // Mock availability data (replace with actual data)
+      let mockData = [
+        { type: 'Single Room', available: true, price: '$90' },
+        { type: 'Family Room', available: false, price: '$120' },
+        { type: 'Presidential Room', available: false, price: '$250' },
+        { type: 'Courtyard Room', available: false, price: '$150' },
+        { type: 'Quay Room', available: true, price: '$200' },
+        { type: 'Presidential Suite', available: true, price: '$350' },
+      ];
+
+      displayAvailability(mockData);
+
+        // Mock API call (replace with actual API endpoint)
+      /* $.ajax({
+        type: 'POST',
+        url: 'https://35.212.159.11/check-availability',
+        data: formData,
+        success: function(response) {
+          $('#availabilityResult').html(`<div class="alert alert-success" role="alert">${response}</div>`);
+        },
+        error: function(xhr, status, error) {
+          $('#availabilityResult').html(`<div class="alert alert-danger" role="alert">Error: ${error}</div>`);
+        }
+      });
+    }); */
+    });
+
+    // Display availability
+    function displayAvailability(availData) {
+      let html = '<div class="alert alert-info" role="alert">Availability:</div>';
+      availData.forEach(room => {
+        html += `<div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Room Type: ${room.type}</h5>
+                        <p class="card-text">Available: ${room.available ? 'Yes' : 'No'}</p>
+                        <p class="card-text">Price per night: ${room.price}</p>
+                    </div>
+                </div>`;
+      });
+      $('#availabilityResult').html(html);
+    }
+
+    // Dynamic room/pax selection
+    $('#rooms').change(function() {
+      let rooms = parseInt($(this).val());
+      let maxGuests = rooms * 4; // Assuming max 4 guests per room
+      $('#guests option').each(function() {
+        let value = parseInt($(this).val());
+        $(this).prop('disabled', value > maxGuests);
+      });
+    });
+  });
 	
 	$('nav .dropdown').hover(function(){
 		var $this = $(this);
@@ -34,10 +107,6 @@
 	  console.log('show');
 	});
 
-  // aos
-  AOS.init({
-    duration: 1000
-  });
 
 	// home slider
 	$('.home-slider').owlCarousel({

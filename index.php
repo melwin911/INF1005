@@ -1,12 +1,11 @@
-<!DOCTYPE HTML>
-<html lang="en">
 
+<!DOCTYPE HTML>
+<html>
 <?php
     include "head.inc.php";
     ?>
 
   <body>
-
   <?php
     include "header.inc.php";
     ?>
@@ -46,7 +45,7 @@
         <div class="row check-availabilty" id="next">
           <div class="block-32" data-aos="fade-up" data-aos-offset="-200">
 
-            <form action="#">
+            <form id="availabilityForm">
               <div class="row">
                 <div class="col-md-6 mb-3 mb-lg-0 col-lg-3">
                   <label for="checkin_date" class="font-weight-bold text-black">Check In</label>
@@ -91,13 +90,12 @@
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3 align-self-end">
-                  <button class="btn btn-primary btn-block text-white">Check Availabilty</button>
+                  <button type="submit" class="btn btn-primary btn-block text-white">Check Availabilty</button>
                 </div>
               </div>
             </form>
+            <div id="availabilityResult"></div>
           </div>
-
-
         </div>
       </div>
     </section>
@@ -218,5 +216,9 @@
     ?>
     <!-- End of footer -->
     
+    
+    <script src="js/bootstrap-datepicker.js"></script> 
+    <script src="js/jquery.timepicker.min.js"></script> 
+    <script src="js/main.js"></script>
   </body>
 </html>
