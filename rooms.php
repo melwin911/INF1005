@@ -100,8 +100,74 @@
       </div>
     </section>
 
+    <?php
     
-    <section class="section">
+// Initialize variables
+$errorMsg = "";
+$rooms = [];
+$success = true;
+
+// Create database connection using the existing config file
+$config = parse_ini_file('/var/www/private/db-config.ini');
+if (!$config) {
+    $errorMsg = "Failed to read database config file.";
+    $success = false;
+} else {
+    $conn = new mysqli(
+        $config['servername'],
+        $config['username'],
+        $config['password'],
+        $config['dbname']
+    );
+    
+    // Check connection
+    if ($conn->connect_error) {
+        $errorMsg = "Connection failed: " . $conn->connect_error;
+        $success = false;
+    } else {
+        // Prepare the SQL statement to select room data
+        $sql = "SELECT room_type, description, price_per_night, image_path FROM room_types";
+        $result = $conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            // Fetch all room data
+            while($row = $result->fetch_assoc()) {
+                $rooms[] = $row;
+            }
+        } else {
+            $errorMsg = "No rooms found.";
+            $success = false;
+        }
+    }
+    $conn->close();
+}
+?>
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <?php foreach ($rooms as $room): ?>
+        <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
+          <a href="#" class="room">
+            <figure class="img-wrap">
+              <img src="images/<?php echo htmlspecialchars($room['image_path'])?>" alt="Room image" class="img-fluid mb-3">
+            </figure>
+            <div class="p-3 text-center room-info">
+              <h2><?php echo htmlspecialchars($room['room_type']); ?></h2>
+              <span class="text-uppercase letter-spacing-1"><?php echo htmlspecialchars($room['price_per_night']); ?>$ / per night</span>
+            </div>
+          </a>
+        </div>
+      <?php endforeach; ?>
+      
+      <?php if (empty($rooms)): ?>
+        <p>No rooms available.</p>
+      <?php endif; ?>
+    </div>
+  </div>
+</section>
+    
+    <!-- <section class="section">
       <div class="container">
         
         <div class="row">
@@ -179,7 +245,7 @@
 
         </div>
       </div>
-    </section>
+    </section> -->
     
     <section class="section bg-light">
 
