@@ -20,7 +20,7 @@
             <ul class="custom-breadcrumbs mb-4">
               <li><a href="index.php">Home</a></li>
               <li>&bullet;</li>
-              <li>Rooms</li>
+              <li><a href="rooms.php">Rooms</a></li>
               <li>&bullet;</li>
               <li><a href="about.php">About</a></li>
               <li>&bullet;</li>
