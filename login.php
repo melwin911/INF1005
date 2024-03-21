@@ -1,24 +1,18 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-
-<?php
+<head>
+    <title>Test Hotel</title>
+    <?php
     include "head.inc.php";
     ?>
+</head>
 
-  <body>
-
-  <?php
+<body>
+    <?php
     include "header.inc.php";
-    ?>
-     
-            
-  <!-- Start of Navbar  -->
-  <?php
     include "navbar.inc.php";
-      ?>
-  <!-- End of navbar  -->
+    ?>
 
-    <!-- start of head section -->
     <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
@@ -27,22 +21,20 @@
             <ul class="custom-breadcrumbs mb-4">
               <li><a href="index.php">Home</a></li>
               <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
+              <li>Rooms</li>
               <li>&bullet;</li>
               <li><a href="about.php">About</a></li>
               <li>&bullet;</li>
-              <li>Login</li>
+              <li><a href="registration.php">Registration</a></li>
+              <li>&bullet;</li>
+              <li><a href="login.php">Login</a></li>
             </ul>
           </div>
         </div>
       </div>
     </section>
-    <!-- END head section -->
-
-
-    <div class="container section">
-
-      <main class="container" id="registration"> 
+    
+    <main class="container" id="registration"> 
         <h1>Member Login</h1> 
         <p> 
             Existing members log in here. For new members, please sign up at 
@@ -57,17 +49,20 @@
                 <label for="pwd" class="form-label">Password:</label> 
                 <input required type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
             </div> 
-
+            <div class="mb-3">
+                <input type="checkbox" id="rememberme" name="rememberme" class="form-check-input">
+                <label for="rememberme" class="form-check-label">Remember Me</label>
+            </div>
             <div class="mb-3"> 
                 <button type="submit" class="btn btn-primary">Submit</button> 
             </div> 
         </form>
     </main>
    <!-- Start of footer -->
-   <?php
-    include "footer.inc.php";
-    ?>
+    <?php
+      include "footer.inc.php";
+      ?>
 <!-- End of footer -->
     
-  </body>
+</body>
 </html>

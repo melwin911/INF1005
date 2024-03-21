@@ -32,6 +32,8 @@
               <li>About</li>
               <li>&bullet;</li>
               <li><a href="registration.php">Registration</a></li>
+              <li>&bullet;</li>
+              <li><a href="login.php">Login</a></li>
             </ul>
           </div>
         </div>

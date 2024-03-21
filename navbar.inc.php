@@ -7,6 +7,7 @@
                         <li class="active"><a href="index.php">Home</a></li>
                         <li><a href="rooms.php">Rooms</a></li>
                         <li><a href="about.php">About</a></li>
+                        <li><a href="registration.php">Registration</a></li>
                         <li><a href="login.php">Login</a></li>
                       </ul>
                     </div>

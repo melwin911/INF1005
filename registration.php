@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>Test Hotel</title>
     <?php
     include "head.inc.php";
     ?>
+</head>
 
-    <body>
-
+<body>
     <?php
     include "header.inc.php";
+    include "navbar.inc.php";
     ?>
-        <?php
-        include "navbar.inc.php";
-        ?>
-
-        <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
+    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">Rooms</h1>
+            <h1 class="heading mb-3">Registration</h1>
             <ul class="custom-breadcrumbs mb-4">
               <li><a href="index.php">Home</a></li>
               <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
+              <li>Rooms</li>
               <li>&bullet;</li>
               <li><a href="about.php">About</a></li>
               <li>&bullet;</li>
-              <li>Registration</li>
+              <li><a href="registration.php">Registration</a></li>
+              <li>&bullet;</li>
+              <li><a href="login.php">Login</a></li>
             </ul>
           </div>
         </div>
       </div>
-        </section>
+    </section>
 
         <main class="container">
             <h1>Membership Registration</h1>
@@ -50,14 +51,20 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="male">Male</label>
-                    <input type="radio" id="male" name="gender" value="male" required>
-
-                    <label for="female">Female</label>
-                    <input type="radio" id="female" name="gender" value="female" required>
-
-                    <label for="other">Other</label>
-                    <input type="radio" id="other" name="gender" value="other" required>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>
+                            <input type="radio" id="male" name="gender" value="male" required>
+                            <label for="male">Male</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="female" name="gender" value="female" required>
+                            <label for="female">Female</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="other" name="gender" value="other" required>
+                            <label for="other">Other</label>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="mb-3">

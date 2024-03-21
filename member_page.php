@@ -1,12 +1,12 @@
 <?php
 session_start();
-
-// Check if the user is logged in
-if (isset($_SESSION['loggedin'])) {
-    // Redirect to userIndex.php if the user is logged in
-    header('Location: member_page.php');
+// Check if the user is not logged in
+if (!isset($_SESSION['loggedin'])) {
+    // Redirect to index.php if the user is not logged in
+    header('Location: index.php');
     exit;
 }
+$email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE HTML>
@@ -23,7 +23,7 @@ if (isset($_SESSION['loggedin'])) {
             
             <!-- Start of Navbar  -->
             <?php
-            include "navbar.inc.php";
+            include "member_navbar.inc.php";
             ?>
             <!-- End of navbar  -->
 
@@ -36,15 +36,13 @@ if (isset($_SESSION['loggedin'])) {
             <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
             <h1 class="heading">A Best Place To Stay</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
+              <li><a href="member_page.php">Home</a></li>
               <li>&bullet;</li>
               <li><a href="rooms.php">Rooms</a></li>
               <li>&bullet;</li>
               <li><a href="about.php">About</a></li>
               <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
-              <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
+              <li><a href="logout.php">Logout</a></li>
             </ul>
           </div>
             </div>
