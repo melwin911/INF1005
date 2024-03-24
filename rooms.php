@@ -107,6 +107,7 @@
 // Initialize variables
 $errorMsg = "";
 $rooms = [];
+$availabilityData = [];
 $success = true;
 
 // Create database connection using the existing config file
@@ -141,6 +142,42 @@ if (!$config) {
             $success = false;
         }
     }
+
+    if ($conn->connect_error) {
+      $errorMsg = "Connection failed: " . $conn->connect_error;
+      $success = false;
+  } else {
+      // Check if the form data is sent via POST
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          // Sanitize and validate form data (to prevent SQL injection, etc.)
+          $checkin_date = $_POST['checkin_date'];
+          $checkout_date = $_POST['checkout_date'];
+          $rooms_requested = $_POST['rooms'];
+          $guests = $_POST['guests'];
+
+          // Perform any necessary processing on form data
+
+          // Query to fetch availability data from the database
+          $sql = "SELECT rt.room_type, rt.price_per_night, SUM(r.availability) AS total_availability FROM room_types rt JOIN rooms r ON rt.room_type_id = r.room_type_id GROUP BY rt.room_type, rt.price_per_night";
+
+          // Execute the query
+          $result = $conn->query($sql);
+
+          // Check if the query was successful
+          if ($result) {
+              // Fetch the data from the result set
+              while($row = $result->fetch_assoc()) {
+                $availabilityData[] = $row;
+                console.log($availabilityData);
+            }
+              exit(); // Stop further execution
+          } else {
+              // Handle database query errors
+              $errorMsg = "Database query error.";
+              $success = false;
+          }
+      }
+  }
     $conn->close();
 }
 ?>
@@ -285,6 +322,8 @@ if (!$config) {
     include "footer.inc.php";
     ?>
 <!-- End of footer -->
+<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
 
 <script src="js/bootstrap-datepicker.js"></script> 
     <script src="js/jquery.timepicker.min.js"></script> 

@@ -33,10 +33,10 @@ if (isset($_SESSION['loggedin'])) {
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade-up">
-            <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
+            <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 Hotel</span>
             <h1 class="heading">A Best Place To Stay</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
+              <li>Home</li>
               <li>&bullet;</li>
               <li><a href="rooms.php">Rooms</a></li>
               <li>&bullet;</li>
@@ -227,7 +227,8 @@ if (isset($_SESSION['loggedin'])) {
     include "footer.inc.php";
     ?>
     <!-- End of footer -->
-    
+    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
     
     <script src="js/bootstrap-datepicker.js"></script> 
     <script src="js/jquery.timepicker.min.js"></script> 

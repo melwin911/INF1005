@@ -1269,3 +1269,13 @@ textarea.form-control {
         background: #ffba5a;
         color: #fff;
         border-radius: 50%; }
+
+        .contact-info {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.contact-details {
+  width: calc(50% - 10px); /* Adjust the width as needed */
+}

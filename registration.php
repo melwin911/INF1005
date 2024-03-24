@@ -24,7 +24,7 @@
               <li>&bullet;</li>
               <li><a href="about.php">About</a></li>
               <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
+              <li>Registration</li>
               <li>&bullet;</li>
               <li><a href="login.php">Login</a></li>
             </ul>
@@ -96,5 +96,7 @@
         <?php
         include "footer.inc.php";
         ?>
+        <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
     </body>
 </html>

@@ -27,7 +27,7 @@
               <li>&bullet;</li>
               <li><a href="registration.php">Registration</a></li>
               <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
+              <li>Login</li>
             </ul>
           </div>
         </div>
@@ -63,6 +63,8 @@
       include "footer.inc.php";
       ?>
 <!-- End of footer -->
+<script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
     
 </body>
 </html>

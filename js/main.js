@@ -2,8 +2,7 @@
 
 	'use strict';
 
-
-
+ 
   $('.site-menu-toggle').click(function(){
     var $this = $(this);
     if ( $('body').hasClass('menu-open') ) {
@@ -16,6 +15,23 @@
       $('body').addClass('menu-open');
     }
   });
+
+	
+	$('nav .dropdown').hover(function(){
+		var $this = $(this);
+		$this.addClass('show');
+		$this.find('> a').attr('aria-expanded', true);
+		$this.find('.dropdown-menu').addClass('show');
+	}, function(){
+		var $this = $(this);
+			$this.removeClass('show');
+			$this.find('> a').attr('aria-expanded', false);
+			$this.find('.dropdown-menu').removeClass('show');
+	});
+
+  $('#dropdown04').on('show.bs.dropdown', function () {
+	  console.log('show');
+	});
 
   $(document).ready(function() {
     // Initialize datepickers
@@ -30,53 +46,39 @@
     $('#availabilityForm').submit(function(event) {
       event.preventDefault();
       let formData = {
-        checkin_date: $('#checkin_date').val(),
-        checkout_date: $('#checkout_date').val(),
-        rooms: $('#rooms').val(),
-        guests: $('#guests').val()
+          checkin_date: $('#checkin_date').val(),
+          checkout_date: $('#checkout_date').val(),
+          rooms: $('#rooms').val(),
+          guests: $('#guests').val()
       };
-
-      // Mock availability data (replace with actual data)
-      let mockData = [
-        { type: 'Single Room', available: true, price: '$90' },
-        { type: 'Family Room', available: false, price: '$120' },
-        { type: 'Presidential Room', available: false, price: '$250' },
-        { type: 'Courtyard Room', available: false, price: '$150' },
-        { type: 'Quay Room', available: true, price: '$200' },
-        { type: 'Presidential Suite', available: true, price: '$350' },
-      ];
-
-      displayAvailability(mockData);
-
-        // Mock API call (replace with actual API endpoint)
-      /* $.ajax({
-        type: 'POST',
-        url: 'https://35.212.159.11/check-availability',
-        data: formData,
-        success: function(response) {
-          $('#availabilityResult').html(`<div class="alert alert-success" role="alert">${response}</div>`);
-        },
-        error: function(xhr, status, error) {
-          $('#availabilityResult').html(`<div class="alert alert-danger" role="alert">Error: ${error}</div>`);
-        }
+  
+      $.ajax({
+          type: 'POST',
+          url: 'rooms.php', // Update with the correct URL to your PHP file
+          data: formData,
+          dataType: 'json',
+          success: function(response) {
+              displayAvailability(response);
+          },
+          error: function(xhr, status, error) {
+              $('#availabilityResult').html(`<div class="alert alert-danger" role="alert">Error: ${error}</div>`);
+          }
       });
-    }); */
-    });
-
-    // Display availability
-    function displayAvailability(availData) {
+  });
+  
+  function displayAvailability(availData) {
       let html = '<div class="alert alert-info" role="alert">Availability:</div>';
       availData.forEach(room => {
-        html += `<div class="card mb-2">
-                    <div class="card-body">
-                        <h5 class="card-title">Room Type: ${room.type}</h5>
-                        <p class="card-text">Available: ${room.available ? 'Yes' : 'No'}</p>
-                        <p class="card-text">Price per night: ${room.price}</p>
-                    </div>
-                </div>`;
+          html += `<div class="card mb-2">
+                      <div class="card-body">
+                          <h5 class="card-title">Room Type: ${rooms_types.room_type}</h5>
+                          <p class="card-text">Available: ${room.total_availablility}</p>
+                          <p class="card-text">Price per night: ${rooms_types.price_per_night}</p>
+                      </div>
+                  </div>`;
       });
       $('#availabilityResult').html(html);
-    }
+  }
 
     // Dynamic room/pax selection
     $('#rooms').change(function() {
@@ -89,23 +91,7 @@
     });
   });
 	
-	$('nav .dropdown').hover(function(){
-		var $this = $(this);
-		$this.addClass('show');
-		$this.find('> a').attr('aria-expanded', true);
-		$this.find('.dropdown-menu').addClass('show');
-	}, function(){
-		var $this = $(this);
-			$this.removeClass('show');
-			$this.find('> a').attr('aria-expanded', false);
-			$this.find('.dropdown-menu').removeClass('show');
-	});
 
-
-
-	$('#dropdown04').on('show.bs.dropdown', function () {
-	  console.log('show');
-	});
 
 
 	// home slider
