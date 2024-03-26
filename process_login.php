@@ -1,10 +1,14 @@
 <?php
+
+require __DIR__ . '/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$secretKey = $_SERVER['SECRET_KEY'] ?? $_ENV['SECRET_KEY'] ?? null;
+
 // Initialize variables
 $email = $password = $errorMsg = "";
 $success = true;
-$strongKey = bin2hex(random_bytes(32));
-define('SECRET_KEY', $strongKey);
-rememberMe();
+rememberMe($secretKey);
 
 // Check if form fields are set
 if (empty($_POST["email"])) {
@@ -29,9 +33,10 @@ if (empty($_POST["pwd"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     authenticateUser();
     session_start();
-    onLogin($email, isset($_POST['rememberme']));
+    onLogin($email, isset($_POST['rememberme']), $secretKey);
     $_SESSION['fname'] = $fname;
     $_SESSION['lname'] = $lname;
+    $_SESSION['email'] = $email;
 }
 
 if ($success) {
@@ -119,11 +124,6 @@ function authenticateUser()
     }
 }
 
-function GenerateRandomToken()
-{
-    return bin2hex(random_bytes(16)); // Generates a 128-bit token
-}
-
 function storeTokenForUser($email, $token)
 {
     global $errorMsg, $success;
@@ -168,19 +168,24 @@ function storeTokenForUser($email, $token)
     $conn->close();
 }
 
-
-function onLogin($email, $rememberme)
-{
-    // Perform authentication logic here
-    $_SESSION['loggedin'] = true; // Set session variable indicating the user is logged in
-    // Handle remember me functionality
+use \Firebase\JWT\JWT; // Import the JWT namespace
+use \Firebase\JWT\ExpiredException;
+use \Firebase\JWT\SignatureInvalidException;
+use \Firebase\JWT\BeforeValidException;
+use \UnexpectedValueException;
+function onLogin($email, $rememberme, $secretKey) {
+    $_SESSION['loggedin'] = true; // User is logged in
     if ($rememberme) {
-        $token = GenerateRandomToken(); // generate a token, should be 128-bit or more
-        storeTokenForUser($email, $token);
-        $cookie = $email . ':' . $token;
-        $mac = hash_hmac('sha256', $cookie, SECRET_KEY);
-        $cookie .= ':' . $mac;
-        setcookie('rememberme', $cookie, time() + (86400 * 30), "/"); // Cookie valid for 30 days
+        $payload = [
+            'email' => $email,
+            'exp' => time() + (86400 * 30), // Token expires in 30 days
+        ];
+
+        $jwt = JWT::encode($payload, $secretKey, 'HS256');
+        storeTokenForUser($email, $jwt); // Store JWT in your database against the user
+
+        $cookie = $email . ':' . $jwt;
+        setcookie('rememberme', $cookie, time() + (86400 * 30), "/"); // Set cookie for 30 days
     }
 }
 
@@ -219,18 +224,37 @@ function fetchTokenByEmail($email)
     return $token;
 }
 
-function rememberMe()
-{
-    if (isset($_COOKIE['rememberme']))
-    {
-        list($email, $token, $mac) = explode(':', $_COOKIE['rememberme']);
-        if (hash_equals(hash_hmac('sha256', $email . ':' . $token, SECRET_KEY), $mac))
-        {
-            $storedToken = fetchTokenByEmail($email);
-            if ($storedToken !== null && hash_equals($storedToken, $token))
-            {
+function rememberMe($secretKey) {
+    if (isset($_COOKIE['rememberme'])) {
+        list($email, $jwt) = explode(':', $_COOKIE['rememberme']);
+        $jwtFromDatabase = fetchTokenByEmail($email); // Fetch the token from the database
+        
+        if ($jwtFromCookie === $jwtFromDatabase) {
+            try {
+                JWT::decode($jwt, $secretKey, 'HS256'); // Adjusted for firebase/php-jwt v6+
                 $_SESSION['loggedin'] = true;
                 $_SESSION['email'] = $email;
+                // Consider redirecting the user to their intended destination or member page
+            } catch (ExpiredException $e) {
+                // Handle expired token
+                // Maybe prompt user to login again or automatically extend their session if applicable
+            } catch (SignatureInvalidException $e) {
+                // Handle invalid signature - potential tampering
+            } catch (BeforeValidException $e) {
+                // Handle token being used before it's valid
+            } catch (UnexpectedValueException $e) {
+                // Handle other errors such as wrong algorithm or malformed token
+            } catch (Exception $e) {
+                // Handle any other exceptions
+            } finally {
+                if (!$_SESSION['loggedin']) {
+                    // This ensures actions are taken if any of the catches set loggedin to false or if an exception was caught
+                    setcookie('rememberme', '', time() - 3600, "/"); // Clear the 'rememberme' cookie
+                    session_unset(); // Clear the session
+                    session_destroy(); // Destroy the session
+                    header('Location: login.php'); // Redirect to login page
+                    exit; // Ensure no further execution of script
+                }
             }
         }
     }

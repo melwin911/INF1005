@@ -1,8 +1,7 @@
 <?php
 session_start();
-
 // Check if the user is logged in
-if (isset($_SESSION['loggedin'])) {
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     // Redirect to userIndex.php if the user is logged in
     header('Location: member_page.php');
     exit;
@@ -36,7 +35,7 @@ if (isset($_SESSION['loggedin'])) {
             <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 Hotel</span>
             <h1 class="heading">A Best Place To Stay</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li>Home</li>
+              <li><a href="index.php">Home</a></li>
               <li>&bullet;</li>
               <li><a href="rooms.php">Rooms</a></li>
               <li>&bullet;</li>

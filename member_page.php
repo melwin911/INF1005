@@ -36,7 +36,7 @@ $email = $_SESSION['email'];
             <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
             <h1 class="heading">A Best Place To Stay</h1>
             <ul class="custom-breadcrumbs mb-4">
-              <li>Home</li>
+              <li><a href="member_page.php">Home</a></li>
               <li>&bullet;</li>
               <li><a href="rooms.php">Rooms</a></li>
               <li>&bullet;</li>
