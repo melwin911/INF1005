@@ -17,7 +17,7 @@
   });
 
 	
-	$('nav .dropdown').hover(function(){
+	$('nav.dropdown').hover(function(){
 		var $this = $(this);
 		$this.addClass('show');
 		$this.find('> a').attr('aria-expanded', true);
@@ -46,39 +46,51 @@
     $('#availabilityForm').submit(function(event) {
       event.preventDefault();
       let formData = {
-          checkin_date: $('#checkin_date').val(),
-          checkout_date: $('#checkout_date').val(),
-          rooms: $('#rooms').val(),
-          guests: $('#guests').val()
+        checkin_date: $('#checkin_date').val(),
+        checkout_date: $('#checkout_date').val(),
+        rooms: $('#rooms').val(),
+        guests: $('#guests').val()
       };
-  
+
+      // Mock availability data (replace with actual data)
+      let roomsData = [
+        { type: 'Single Room', available: true, price: '$90', availability: '4' },
+        { type: 'Family Room', available: true, price: '$120', availability: '2' },
+        { type: 'Presidential Room', available: true, price: '$250', availability: '2' },
+        { type: 'Courtyard Room', available: true, price: '$150', availability: '4' },
+        { type: 'Quay Room', available: true, price: '$200', availability: '1' },
+        { type: 'Presidential Suite', available: true, price: '$350', availability: '1' },
+        { type: 'Executive Suite', available: true, price: '$450', availability: '2' },
+      ];
+
+      displayAvailability(roomsData);
+
+      // Mock API call (replace with actual API endpoint)
       $.ajax({
-          type: 'POST',
-          url: 'rooms.php', // Update with the correct URL to your PHP file
-          data: formData,
-          dataType: 'json',
-          success: function(response) {
-              displayAvailability(response);
-          },
-          error: function(xhr, status, error) {
-              $('#availabilityResult').html(`<div class="alert alert-danger" role="alert">Error: ${error}</div>`);
-          }
+        type: 'POST',
+        url: 'https://35.212.159.11/rooms',
+        data: formData,
+        success: function(response) {
+          $('#availabilityResult').html(`<div class="alert alert-success" role="alert">${response}</div>`);
+        },
       });
-  });
-  
-  function displayAvailability(availData) {
+    });
+
+    // Display availability
+    function displayAvailability(availData) {
       let html = '<div class="alert alert-info" role="alert">Availability:</div>';
       availData.forEach(room => {
-          html += `<div class="card mb-2">
-                      <div class="card-body">
-                          <h5 class="card-title">Room Type: ${rooms_types.room_type}</h5>
-                          <p class="card-text">Available: ${room.total_availablility}</p>
-                          <p class="card-text">Price per night: ${rooms_types.price_per_night}</p>
-                      </div>
-                  </div>`;
+        html += `<div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">Room Type: ${room.type}</h5>
+                        <p class="card-text">Available: ${room.available ? 'Yes' : 'No'}</p>
+                        <p class="card-text">Price per night: ${room.price}</p>
+                        <p class="card-text">Number of available rooms left: ${room.availability}</p>
+                    </div>
+                </div>`;
       });
       $('#availabilityResult').html(html);
-  }
+    }
 
     // Dynamic room/pax selection
     $('#rooms').change(function() {
@@ -91,7 +103,6 @@
     });
   });
 	
-
 
 
 	// home slider
