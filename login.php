@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+$headSection = "nonmember_head.inc.php"; // Default to non-member head
+$navBar = "navbar.inc.php"; // Default to non-member navbar
+
+// Check if the user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Keep the user on login.php if they are not logged in
+    // This is the place to stay if not logged in, so nothing happens here.
+} else {
+    // Redirect to member_page.php if the user is already logged in
+    header('Location: member_page.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,10 +27,12 @@
 <body>
     <?php
     include "header.inc.php";
-    include "navbar.inc.php";
+    include $navBar;
+    include $headSection;
+    renderNavbar('Login');
     ?>
 
-    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
+    <!-- <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
@@ -32,7 +51,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <main class="container" id="registration"> 
         <h1>Member Login</h1> 
@@ -49,7 +68,7 @@
                 <label for="pwd" class="form-label">Password:</label> 
                 <input required type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
             </div> 
-            <div class="mb-3">
+            <div class="mb-3 form-check">
                 <input type="checkbox" id="rememberme" name="rememberme" class="form-check-input">
                 <label for="rememberme" class="form-check-label">Remember Me</label>
             </div>
@@ -65,6 +84,7 @@
 <!-- End of footer -->
 <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
+<script src="js/main.js"></script>
     
 </body>
 </html>

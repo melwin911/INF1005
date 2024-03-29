@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+$headSection = "member_head.inc.php";
+
 // Check if the user is not logged in
 if (!isset($_SESSION['loggedin'])) {
     // Redirect to index.php if the user is not logged in
@@ -10,7 +13,7 @@ $email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <?php
     include "head.inc.php";
     ?>
@@ -18,36 +21,10 @@ $email = $_SESSION['email'];
   <body>
   <?php
     include "header.inc.php";
+    include "member_navbar.inc.php";
+    include $headSection;
+    renderNavbar('Home');
     ?>
-     
-            
-            <!-- Start of Navbar  -->
-            <?php
-            include "member_navbar.inc.php";
-            ?>
-            <!-- End of navbar  -->
-
-
-  <!-- start of head section -->
-    <section class="site-hero overlay" style="background-image: url(images/slider-6.jpg)" data-stellar-background-ratio="0.5">
-      <div class="container">
-        <div class="row site-hero-inner justify-content-center align-items-center">
-          <div class="col-md-10 text-center" data-aos="fade-up">
-            <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 <span class="fa fa-star text-primary"></span>   Hotel</span>
-            <h1 class="heading">A Best Place To Stay</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="member_page.php">Home</a></li>
-              <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
-              <li>&bullet;</li>
-              <li><a href="about.php">About</a></li>
-              <li>&bullet;</li>
-              <li><a href="logout.php">Logout</a></li>
-            </ul>
-          </div>
-            </div>
-          </section>
-    <!-- end of head section -->
 
     <section class="section bg-light pb-0"  >
       <div class="container">

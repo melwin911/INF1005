@@ -1,9 +1,9 @@
 <?php
-
+session_start();
 require __DIR__ . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-$secretKey = $_SERVER['SECRET_KEY'] ?? $_ENV['SECRET_KEY'] ?? null;
+$secretKey = $_ENV['SECRET_KEY'];
 
 // Initialize variables
 $email = $password = $errorMsg = "";
@@ -27,26 +27,31 @@ if (empty($_POST["pwd"])) {
     $errorMsg .= "Password is required.<br>";
     $success = false;
 } else {
-    $password = $_POST["pwd"]; // No need to sanitize password because it typically contains special characters
+    $password = $_POST["pwd"];
 }
 
+// Attempt authentication only if the request is POST and $success is still true.
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
-    authenticateUser();
-    session_start();
-    onLogin($email, isset($_POST['rememberme']), $secretKey);
-    $_SESSION['fname'] = $fname;
-    $_SESSION['lname'] = $lname;
-    $_SESSION['email'] = $email;
+    $result = authenticateUser($email, $password, $secretKey);
+    $success = $result['success'];
+    if (!$success) {
+        $errorMsg .= $result['message'];
+    }
 }
 
-if ($success) {
+// Redirect or include content based on $success
+if ($success && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    // Successful login, include member pages
     include "head.inc.php";
     include "header.inc.php";
     include "member_headsection.inc.php";
     include "footer.inc.php";
 } else {
+    // Failed login, include non-member pages and error message
+    include "head.inc.php";
     include "header.inc.php";
-    include "headsection.inc.php";
+    include "nonmember_head.inc.php";
+    renderNavbar('Login');
     echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
     echo "<h3>Oops! </h3> <h4>The following errors were detected:</h4>";
     echo "<p>" . $errorMsg . "</p>";
@@ -69,60 +74,65 @@ function sanitize_input($data)
 /*
 * Helper function to authenticate the login.
 */
-function authenticateUser()
+function authenticateUser($email, $password, $secretKey)
 {
-    global $fname, $lname, $email, $pwd_hashed, $errorMsg, $success;
+    $errorMsg = ""; // Initialize error message variable
+    $success = true; // Default success unless an error occurs
+
     // Create database connection.
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
         $errorMsg = "Failed to read database config file.";
         $success = false;
     } else {
-        $conn = new mysqli(
-            $config['servername'],
-            $config['username'],
-            $config['password'],
-            $config['dbname']
-        );
+        $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+
         // Check connection
         if ($conn->connect_error) {
             $errorMsg = "Connection failed: " . $conn->connect_error;
             $success = false;
-        }
-        else
-        {
-            // Prepare the statement:
-            $stmt = $conn->prepare("SELECT * FROM hotel_members WHERE email=?");
-            // Bind & execute the query statement:
+        } else {
+            // Prepare the statement
+            $stmt = $conn->prepare("SELECT fname, lname, email, password FROM hotel_members WHERE email=?");
+            // Bind & execute the query statement
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
+
             if ($result->num_rows > 0) {
-                // Note that email field is unique, so should only have
-                // one row in the result set.
                 $row = $result->fetch_assoc();
-                $fname = $row["fname"];
-                $lname = $row["lname"];
                 $pwd_hashed = $row["password"];
-                // Check if the password matches:
-                if (!password_verify($_POST["pwd"], $pwd_hashed))
-                {
-                    // Don't be too specific with the error message - hackers don't
-                    // need to know which one they got right or wrong. :)
-                    $errorMsg = "Email not found or password doesn't match...";
+                // Check if the password matches
+                if (password_verify($password, $pwd_hashed)) {
+                    // Successful login
+                    $_SESSION['fname'] = $row["fname"];
+                    $_SESSION['lname'] = $row["lname"];
+                    $_SESSION['email'] = $email;
+                    onLogin($email, isset($_POST['rememberme']), $secretKey);
+                } else {
+                    // Password does not match
+                    $errorMsg = "Email not found or password doesn't match.";
                     $success = false;
                 }
-            }
-            else
-            {
-                $errorMsg = "Email not found or password doesn't match...";
+            } else {
+                // No user found
+                $errorMsg = "Email not found or password doesn't match.";
                 $success = false;
             }
             $stmt->close();
         }
         $conn->close();
     }
+
+    if (!$success) {
+        // If not successful, display error message
+        echo $errorMsg;
+    }
+
+    // Return both the success status and the message
+    return ['success' => $success, 'message' => $errorMsg];
 }
+
 
 function storeTokenForUser($email, $token)
 {
@@ -174,7 +184,9 @@ use \Firebase\JWT\SignatureInvalidException;
 use \Firebase\JWT\BeforeValidException;
 use \UnexpectedValueException;
 function onLogin($email, $rememberme, $secretKey) {
+    if ($email){
     $_SESSION['loggedin'] = true; // User is logged in
+    $_SESSION['user_email'] = $email;
     if ($rememberme) {
         $payload = [
             'email' => $email,
@@ -186,6 +198,10 @@ function onLogin($email, $rememberme, $secretKey) {
 
         $cookie = $email . ':' . $jwt;
         setcookie('rememberme', $cookie, time() + (86400 * 30), "/"); // Set cookie for 30 days
+    }
+    }
+    else {
+        unset($_SESSION['loggedin']);
     }
 }
 
@@ -229,9 +245,9 @@ function rememberMe($secretKey) {
         list($email, $jwt) = explode(':', $_COOKIE['rememberme']);
         $jwtFromDatabase = fetchTokenByEmail($email); // Fetch the token from the database
         
-        if ($jwtFromCookie === $jwtFromDatabase) {
+        if ($jwt === $jwtFromDatabase) {
             try {
-                JWT::decode($jwt, $secretKey, 'HS256'); // Adjusted for firebase/php-jwt v6+
+                // JWT::decode($jwt, $secretKey, 'HS256'); // Adjusted for firebase/php-jwt v6+
                 $_SESSION['loggedin'] = true;
                 $_SESSION['email'] = $email;
                 // Consider redirecting the user to their intended destination or member page

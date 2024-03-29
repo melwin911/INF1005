@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+$headSection = "nonmember_head.inc.php"; // Default to non-member head
+$navBar = "navbar.inc.php"; // Default to non-member navbar
+
+// Check if the authentication cookie exists
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    // Include the member head section if the auth cookie exists
+    $headSection = "member_head.inc.php";
+    $navBar = "member_navbar.inc.php";
+}
+?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -9,17 +23,13 @@
 
   <?php
     include "header.inc.php";
+    include $navBar;
+    include $headSection;
+    renderNavbar('About');
     ?>
-     
-            
-    <!-- Start of Navbar  -->
-     <?php
-        include "navbar.inc.php";
-        ?>
-     <!-- End of navbar  -->
 
-    <!-- start of head section -->
-    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
+        <!-- start of head section -->
+        <!-- <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
@@ -38,7 +48,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 <!-- end of head section -->
 
     <div class="container section">
@@ -129,6 +139,7 @@
 <!-- End of footer -->
 <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
+<script src="js/main.js"></script>
     
   </body>
 </html>

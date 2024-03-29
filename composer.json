@@ -1,0 +1,17 @@
+{
+    "name": "sherwynchan/inf1005",
+    "autoload": {
+        "psr-4": {
+            "Sherwynchan\\Inf1005\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sherwyn-Chan",
+            "email": "sherwyn555@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.10"
+    }
+}

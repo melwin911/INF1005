@@ -1,3 +1,17 @@
+<?php
+session_start();
+
+$headSection = "nonmember_head.inc.php"; // Default to non-member head
+$navBar = "navbar.inc.php"; // Default to non-member navbar
+
+// Check if the authentication cookie exists
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    // Include the member head section if the auth cookie exists
+    $headSection = "member_head.inc.php";
+    $navBar = "member_navbar.inc.php";
+}
+?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -9,37 +23,10 @@
 
   <?php
     include "header.inc.php";
+    include $navBar;
+    include $headSection;
+    renderNavbar('Rooms');
     ?>
-     
-            
-    <!-- Start of Navbar  -->
-            <?php
-            include "navbar.inc.php";
-            ?>
-    <!-- End of navbar  -->
-
-    <!-- start of head section -->
-    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
-      <div class="container">
-        <div class="row site-hero-inner justify-content-center align-items-center">
-          <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">Rooms</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
-              <li>&bullet;</li>
-              <li>Rooms</li>
-              <li>&bullet;</li>
-              <li><a href="about.php">About</a></li>
-              <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
-              <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  <!-- end of head section -->
 
   <section class="section bg-light pb-0"  >
       <div class="container">
@@ -168,7 +155,7 @@ if (!$config) {
               // Fetch the data from the result set
               while($row = $result->fetch_assoc()) {
                 $availabilityData[] = $row;
-                console.log($availabilityData);
+                // console.log($availabilityData);
             }
               exit(); // Stop further execution
           } else {

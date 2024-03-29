@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+$headSection = "nonmember_head.inc.php"; // Default to non-member head
+$navBar = "navbar.inc.php"; // Default to non-member navbar
+
+// Check if the user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Keep the user on login.php if they are not logged in
+    // This is the place to stay if not logged in, so nothing happens here.
+} else {
+    // Redirect to member_page.php if the user is already logged in
+    header('Location: member_page.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +27,11 @@
 <body>
     <?php
     include "header.inc.php";
-    include "navbar.inc.php";
+    include $navBar;
+    include $headSection;
+    renderNavbar('Registration');
     ?>
-    <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
+    <!-- <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
       <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
           <div class="col-md-10 text-center" data-aos="fade">
@@ -31,7 +50,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
         <main class="container">
             <h1>Membership Registration</h1>
@@ -79,7 +98,7 @@
 
                 <div class="mb-3">
                     <label for="pwd_confirm" class="form-label">Confirm Password:</label>
-                    <input required type="password" id="pwd_confirm" name="pwd_confirm" class="form-control" placeholder="Confirm password(COMPULSORY)">
+                    <input required type="password" id="pwd_confirm" name="pwd_confirm" class="form-control" placeholder="Confirm password (COMPULSORY)">
                 </div>
 
                 <div class="mb-3 form-check">
@@ -98,5 +117,6 @@
         ?>
         <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 <script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
+<script src="js/main.js"></script>
     </body>
 </html>

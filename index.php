@@ -1,8 +1,12 @@
 <?php
 session_start();
 // Check if the user is logged in
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    // Redirect to userIndex.php if the user is logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Keep the user on login.php if they are not logged in
+    // This is the place to stay if not logged in, so nothing happens here.
+    $headSection = "nonmember_head.inc.php"; // Default to non-member head
+} else {
+    // Redirect to member_page.php if the user is already logged in
     header('Location: member_page.php');
     exit;
 }
@@ -23,32 +27,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             <!-- Start of Navbar  -->
             <?php
             include "navbar.inc.php";
+            include $headSection;
+            renderNavbar('Home');
             ?>
             <!-- End of navbar  -->
-
-
-  <!-- start of head section -->
-    <section class="site-hero overlay" style="background-image: url(images/slider-6.jpg)" data-stellar-background-ratio="0.5">
-      <div class="container">
-        <div class="row site-hero-inner justify-content-center align-items-center">
-          <div class="col-md-10 text-center" data-aos="fade-up">
-            <span class="custom-caption text-uppercase text-white d-block  mb-3">Welcome To 5 Hotel</span>
-            <h1 class="heading">A Best Place To Stay</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
-              <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
-              <li>&bullet;</li>
-              <li><a href="about.php">About</a></li>
-              <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
-              <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
-            </ul>
-          </div>
-            </div>
-          </section>
-    <!-- end of head section -->
 
     <section class="section bg-light pb-0"  >
       <div class="container">
