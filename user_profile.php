@@ -75,6 +75,17 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
 <main class="container">
     <h1>User Profile</h1>
+    <?php 
+        if (isset($_SESSION['update_success']) && $_SESSION['update_success'] === false) {
+            if (isset($_SESSION['error_msg'])) {
+                echo '<div class="alert alert-danger" role="alert">' . $_SESSION['error_msg'] . '</div>';
+                unset($_SESSION['error_msg']); // Clear the error message after displaying it
+            }
+        } elseif (isset($_SESSION['update_success']) && $_SESSION['update_success'] === true) {
+            echo '<div class="alert alert-success" role="alert">Profile updated successfully!</div>';
+            unset($_SESSION['update_success']); // Clear the error message after displaying it
+        }
+    ?>
     <p>View or update your profile information below.</p>
     <form id="userProfileForm" action="process_update_profile.php" method="post" onsubmit="return confirmProfileUpdate();">
         <div class="mb-3">

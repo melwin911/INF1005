@@ -36,18 +36,24 @@ if (!empty($_POST["email"])) {
     }
 }
 
-if (!empty($_POST["pwd"]) && !empty($_POST["pwd_confirm"])) {
-    if ($_POST["pwd"] !== $_POST["pwd_confirm"]) {
+if (!empty($_POST["new_pwd"]) && !empty($_POST["confirm_new_pwd"])) {
+    if ($_POST["new_pwd"] !== $_POST["confirm_new_pwd"]) {
         $errorMsg .= "Passwords do not match.<br>";
         $success = false;
     } else {
-        $password = $_POST["pwd"];
+        $password = $_POST["new_pwd"];
     }
 }
 
 // Proceed with the update if no errors
 if ($success) {
     updateProfile($currentEmail, $newEmail, $firstName, $lastName, $gender, $password, $currentPasswordProvided);
+    if (!$success){
+        $_SESSION['update_success'] = false;
+        $_SESSION['error_msg'] = $errorMsg;
+        header("Location: user_profile.php"); // Redirect back to the profile page with error message
+        exit;
+    }
 } else {
     $_SESSION['update_success'] = false;
     $_SESSION['error_msg'] = $errorMsg;
@@ -72,7 +78,7 @@ function updateProfile($currentEmail, $newEmail, $firstName, $lastName, $gender,
     // Check if new email is different from current email
     if ($newEmail && $newEmail !== $currentEmail) {
         // Ensure the new email does not exist in the database
-        if (emailExists($newEmail, $conn)) {
+        if (emailExists($newEmail, $currentEmail, $conn)) {
             $errorMsg = "New email is already in use by another account.";
             $success = false;
             return;
@@ -135,11 +141,11 @@ function updateProfile($currentEmail, $newEmail, $firstName, $lastName, $gender,
 }
 
 /*
- * Helper function to check if an email already exists in the database.
+ * Helper function to check if an email already exists in the database, excluding the current user.
  */
-function emailExists($email, $conn) {
-    $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
-    $stmt->bind_param("s", $email);
+function emailExists($email, $currentEmail, $conn) {
+    $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ? AND email != ?");
+    $stmt->bind_param("ss", $email, $currentEmail);
     $stmt->execute();
     $result = $stmt->get_result();
     $exists = $result->num_rows > 0;
