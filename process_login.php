@@ -34,30 +34,21 @@ if (empty($_POST["pwd"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     $result = authenticateUser($email, $password, $secretKey);
     $success = $result['success'];
-    if (!$success) {
-        $errorMsg .= $result['message'];
+    
+    if ($success == true && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+        // Successful login, include member pages
+        include "head.inc.php";
+        include "header.inc.php";
+        include "member_headsection.inc.php";
+        include "footer.inc.php";
+    } elseif ($success == false) {
+        $_SESSION['error'] = $result['message'];
+        // Failed login, include non-member pages and error message
+        include "head.inc.php";
+        include "header.inc.php";
+        include "member_headsection.inc.php";
+        include "footer.inc.php";
     }
-}
-
-// Redirect or include content based on $success
-if ($success && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    // Successful login, include member pages
-    include "head.inc.php";
-    include "header.inc.php";
-    include "member_headsection.inc.php";
-    include "footer.inc.php";
-} else {
-    // Failed login, include non-member pages and error message
-    include "head.inc.php";
-    include "header.inc.php";
-    include "nonmember_head.inc.php";
-    renderNavbar('Login');
-    echo '<br><div style="text-align: left; margin: 0 auto; width: 50%;">';
-    echo "<h3>Oops! </h3> <h4>The following errors were detected:</h4>";
-    echo "<p>" . $errorMsg . "</p>";
-    echo '<button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: white;">Return to Login</a></button>';
-    echo '</div><br>';
-    include "footer.inc.php";
 }
 
 /*
@@ -115,18 +106,13 @@ function authenticateUser($email, $password, $secretKey)
                     $success = false;
                 }
             } else {
-                // No user found
+                // email not found
                 $errorMsg = "Email not found or password doesn't match.";
                 $success = false;
             }
             $stmt->close();
         }
         $conn->close();
-    }
-
-    if (!$success) {
-        // If not successful, display error message
-        echo $errorMsg;
     }
 
     // Return both the success status and the message
