@@ -52,20 +52,8 @@
         guests: $('#guests').val()
       };
 
-      // Mock availability data (replace with actual data)
-      let roomsData = [
-        { type: 'Single Room', available: true, price: '$90', availability: '4' },
-        { type: 'Family Room', available: true, price: '$120', availability: '2' },
-        { type: 'Presidential Room', available: true, price: '$250', availability: '2' },
-        { type: 'Courtyard Room', available: true, price: '$150', availability: '4' },
-        { type: 'Quay Room', available: true, price: '$200', availability: '1' },
-        { type: 'Presidential Suite', available: true, price: '$350', availability: '1' },
-        { type: 'Executive Suite', available: true, price: '$450', availability: '2' },
-      ];
-
       displayAvailability(roomsData);
 
-      // Mock API call (replace with actual API endpoint)
       $.ajax({
         type: 'POST',
         url: 'https://35.212.159.11/rooms',
@@ -101,9 +89,9 @@
         $(this).prop('disabled', value > maxGuests);
       });
     });
+
   });
 	
-
 
 	// home slider
 	$('.home-slider').owlCarousel({
@@ -271,9 +259,17 @@
         $('.js-top').removeClass('active');
       }
 
-    });
-  
+    });  
   };
 
+  let roomsData = [
+    { type: 'Single Room', available: true, price: '$90', availability: '4' },
+    { type: 'Family Room', available: true, price: '$120', availability: '2' },
+    { type: 'Presidential Room', available: true, price: '$250', availability: '2' },
+    { type: 'Courtyard Room', available: true, price: '$150', availability: '4' },
+    { type: 'Quay Room', available: true, price: '$200', availability: '1' },
+    { type: 'Presidential Suite', available: true, price: '$350', availability: '1' },
+    { type: 'Executive Suite', available: true, price: '$450', availability: '2' },
+  ];
 
 })(jQuery);

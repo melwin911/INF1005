@@ -155,7 +155,6 @@ if (!$config) {
               // Fetch the data from the result set
               while($row = $result->fetch_assoc()) {
                 $availabilityData[] = $row;
-                // console.log($availabilityData);
             }
               exit(); // Stop further execution
           } else {
