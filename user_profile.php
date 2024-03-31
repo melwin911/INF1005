@@ -74,7 +74,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     ?>
 
 <main class="container">
-    <h1>User Profile</h1>
+<div class="container mt-4">
+    <h2 class="heading" data-aos="fade-up">User Profile</h2>
     <?php 
         if (isset($_SESSION['update_success']) && $_SESSION['update_success'] === false) {
             if (isset($_SESSION['error_msg'])) {
@@ -142,6 +143,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         <div class="mb-3">
             <button type="submit" class="btn btn-primary" id="updateProfileBtn" disabled>Update Profile</button>
         </div>
+    </div>
     </form>
 </main>
         <?php

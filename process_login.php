@@ -91,7 +91,7 @@ function authenticateUser($email, $password, $secretKey)
             $success = false;
         } else {
             // Prepare the statement
-            $stmt = $conn->prepare("SELECT fname, lname, email, password FROM hotel_members WHERE email=?");
+            $stmt = $conn->prepare("SELECT member_id, fname, lname, email, password FROM hotel_members WHERE email=?");
             // Bind & execute the query statement
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -106,6 +106,7 @@ function authenticateUser($email, $password, $secretKey)
                     $_SESSION['fname'] = $row["fname"];
                     $_SESSION['lname'] = $row["lname"];
                     $_SESSION['email'] = $email;
+                    $_SESSION['member_id'] = $row["member_id"];
                     onLogin($email, isset($_POST['rememberme']), $secretKey);
                 } else {
                     // Password does not match

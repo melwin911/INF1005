@@ -116,8 +116,12 @@ if (!$config) {
         $success = false;
     } else {
         // Prepare the SQL statement to select room data
+<<<<<<< Updated upstream
         //$sql = "SELECT room_type_id, room_type_name, room_description, room_bed, roon_pax, room_size, room_price_sgd, room_image_path, room_amenities FROM room_details";
         $sql = "SELECT * FROM room_details";
+=======
+        $sql = "SELECT room_type_id, room_type, description, price_per_night, image_path FROM room_types";
+>>>>>>> Stashed changes
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {
@@ -169,7 +173,12 @@ if (!$config) {
 }
 ?>
 
-<section class="section">
+<div class="row justify-content-center text-center mb-5">
+        <div class="col-md-5 mb-2">
+          <br>
+          <h2 class="heading" data-aos="fade-up">Our Rooms</h2>
+        </div>
+      </div>
   <div class="container">
     <div class="row">
       <?php foreach ($rooms as $room): ?>
@@ -179,8 +188,15 @@ if (!$config) {
               <img src="<?php echo htmlspecialchars($room['room_image_path'])?>" alt="<?php echo htmlspecialchars($room['room_type_name'])?> image" class="img-fluid mb-3">
             </figure>
             <div class="p-3 text-center room-info">
+<<<<<<< Updated upstream
               <h2><?php echo htmlspecialchars($room['room_type_name']); ?></h2>
               <span class="text-uppercase letter-spacing-1">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
+=======
+              <h2><?php echo htmlspecialchars($room['room_type']); ?></h2>
+              <span class="text-uppercase letter-spacing-1"><?php echo htmlspecialchars($room['price_per_night']); ?>$ / per night</span>
+              <br>
+              <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-white">Book Now</a></p>
+>>>>>>> Stashed changes
             </div>
           </a>
         </div>
@@ -221,7 +237,6 @@ if (!$config) {
       <?php endif; ?>
     </div>
   </div>
-</section>
     
     <!-- <section class="section">
       <div class="container">
