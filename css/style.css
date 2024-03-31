@@ -1279,3 +1279,15 @@ textarea.form-control {
 .contact-details {
   width: calc(50% - 10px); /* Adjust the width as needed */
 }
+
+.ps-2 {
+  padding-left: 0.5rem !important;
+}
+
+.ps-3 {
+  padding-left: 0.75rem !important;
+}
+
+.fw-bold {
+  font-weight: bold;
+}

@@ -116,43 +116,63 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
           </div>
         </div>
         <div class="row">
+        <?php
+          // Initialize variables
+          $errorMsg = "";
+          $rooms = [];
+          $availabilityData = [];
+          $success = true;
+          $room_listing_count = 0;
+          
+          // Create database connection using the existing config file
+          $config = parse_ini_file('/var/www/private/db-config.ini');
+          if (!$config) {
+              $errorMsg = "Failed to read database config file.";
+              $success = false;
+          } else {
+              $conn = new mysqli(
+                  $config['servername'],
+                  $config['username'],
+                  $config['password'],
+                  $config['dbname']
+              );
+              // Check connection
+              if ($conn->connect_error) {
+                  $errorMsg = "Connection failed: " . $conn->connect_error;
+                  $success = false;
+              } else {
+                  // Prepare the SQL statement to select room data
+                  //$sql = "SELECT room_type_id, room_type_name, room_description, room_bed, roon_pax, room_size, room_price_sgd, room_image_path, room_amenities FROM room_details";
+                  $sql = "SELECT * FROM room_details";
+                  $result = $conn->query($sql);
+          
+                  if ($result && $result->num_rows > 0) {
+                      // Fetch all room data
+                      while($row = $result->fetch_assoc()) {
+                          $rooms[] = $row;
+                      }
+                  } else {
+                      $errorMsg = "No rooms found.";
+                      $success = false;
+                  }
+              }
+              $conn->close();
+          }
+
+          foreach ($rooms as $room): 
+            if ($room_listing_count < 3) { ?>
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
             <a href="#" class="room">
               <figure class="img-wrap">
-                <img src="images/img_1.jpg" alt="Free website template" class="img-fluid mb-3">
+                <img src="<?php echo htmlspecialchars($room['room_image_path'])?>" alt="<?php echo htmlspecialchars($room['room_type_name'])?> image" class="img-fluid mb-3">
               </figure>
               <div class="p-3 text-center room-info">
-                <h2>Single Room</h2>
-                <span class="text-uppercase letter-spacing-1">90$ / per night</span>
+                <h2><?php echo htmlspecialchars($room['room_type_name']); ?></h2>
+                <span class="text-uppercase letter-spacing-1">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
               </div>
             </a>
           </div>
-
-          <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_2.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Family Room</h2>
-                <span class="text-uppercase letter-spacing-1">120$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-          <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
-              <figure class="img-wrap">
-                <img src="images/img_3.jpg" alt="Free website template" class="img-fluid mb-3">
-              </figure>
-              <div class="p-3 text-center room-info">
-                <h2>Presidential Room</h2>
-                <span class="text-uppercase letter-spacing-1">250$ / per night</span>
-              </div>
-            </a>
-          </div>
-
-
+          <?php $room_listing_count++;} endforeach; ?>
         </div>
       </div>
     </section>

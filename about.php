@@ -86,11 +86,18 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </div>
     
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md">
         <!-- Google Map embed code -->
         <div class="google-map text-center">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.665394053245!2d103.84620671172271!3d1.3774387614783004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da16e96db0a1ab%3A0x3d0be54fbbd6e1cd!2sSingapore%20Institute%20of%20Technology%20(SIT%40NYP)!5e0!3m2!1sen!2ssg!4v1711283076538!5m2!1sen!2ssg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
+      </div>
+      <div class="col-md">
+        <h4>5 HOTEL</h4>
+        <p><span class="d-block">Singapore Institite of Technology @ NYP</span></p>
+        <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>172A Ang Mo Kio Avenue 8, Singapore 567739</span></p>
+        <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span><a href="tel:+6565921189">(+65) 6592 1189</a></span></p>
+        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span> <a href="mailto:test@test.com">test@test.com</span></p>
       </div>
     </div>
   </div>

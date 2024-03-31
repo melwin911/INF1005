@@ -56,7 +56,7 @@
 
       $.ajax({
         type: 'POST',
-        url: 'https://35.212.159.11/rooms',
+        url: 'http://35.212.159.11/rooms',
         data: formData,
         success: function(response) {
           $('#availabilityResult').html(`<div class="alert alert-success" role="alert">${response}</div>`);

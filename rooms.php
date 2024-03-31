@@ -116,7 +116,8 @@ if (!$config) {
         $success = false;
     } else {
         // Prepare the SQL statement to select room data
-        $sql = "SELECT room_type, description, price_per_night, image_path FROM room_types";
+        //$sql = "SELECT room_type_id, room_type_name, room_description, room_bed, roon_pax, room_size, room_price_sgd, room_image_path, room_amenities FROM room_details";
+        $sql = "SELECT * FROM room_details";
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {
@@ -173,15 +174,45 @@ if (!$config) {
     <div class="row">
       <?php foreach ($rooms as $room): ?>
         <div class="col-md-6 col-lg-4 mb-5" data-aos="fade-up">
-          <a href="#" class="room">
+          <a class="room_info_card" id="<?php echo htmlspecialchars($room['room_type_id'])?>" data-toggle="modal" data-target=".room_page_<?php echo htmlspecialchars($room['room_type_id'])?>" href="">
             <figure class="img-wrap">
-              <img src="images/<?php echo htmlspecialchars($room['image_path'])?>" alt="Room image" class="img-fluid mb-3">
+              <img src="<?php echo htmlspecialchars($room['room_image_path'])?>" alt="<?php echo htmlspecialchars($room['room_type_name'])?> image" class="img-fluid mb-3">
             </figure>
             <div class="p-3 text-center room-info">
-              <h2><?php echo htmlspecialchars($room['room_type']); ?></h2>
-              <span class="text-uppercase letter-spacing-1"><?php echo htmlspecialchars($room['price_per_night']); ?>$ / per night</span>
+              <h2><?php echo htmlspecialchars($room['room_type_name']); ?></h2>
+              <span class="text-uppercase letter-spacing-1">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
             </div>
           </a>
+        </div>
+        <div>
+          <div class="modal fade room_page_<?php echo htmlspecialchars($room['room_type_id'])?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">      
+                <div class="modal-header" style="border-bottom: none;">
+                  <h3 class="modal-title" style="font-weight: bold;" id="room_page_<?php echo htmlspecialchars($room['room_type_id'])?>_title"><?php echo htmlspecialchars($room['room_type_name'])?></h3>
+                  <button type="button" class="close modal-title" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <img src="<?php echo htmlspecialchars($room['room_image_path'])?>" alt="<?php echo htmlspecialchars($room['room_type_name'])?> image" class="img-fluid mb-3">
+                  <p><?php echo htmlspecialchars($room['room_description'])?> pax</p>
+                  <img src="images/person-fill.svg" height="24px"><span class="fw-bold ps-2">Number of Guests</span>
+                  <p class="ps-2"><?php echo htmlspecialchars($room['room_pax'])?></p>
+                  <img src="images/bed_icon.png" height="24px"><span class="fw-bold ps-2">Number of Beds</span>
+                  <p class="ps-2"><?php echo htmlspecialchars($room['room_bed'])?></p>
+                  <img src="images/arrows-angle-expand.svg" height="20px"><span class="fw-bold ps-3">Room Size</span>
+                  <p class="ps-2"><?php echo htmlspecialchars($room['room_size'])?></p>
+                  <img src="images/lamp-fill.svg" height="24px"><span class="fw-bold ps-2">Room Amenitites</span>
+                  <p class="ps-2"><?php echo htmlspecialchars($room['room_amenities'])?></p>
+                </div>
+                <div class="modal-footer" style="border-top: none;">
+                  <span class="display-4 text-primary" style="font-size: 2.5rem;">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-1">/ per night</span>
+                  <button type="button" class="btn btn-primary text-white">Book</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       <?php endforeach; ?>
       
@@ -280,26 +311,31 @@ if (!$config) {
             <h2 class="heading" data-aos="fade">Great Offers</h2>
           </div>
         </div>
-      
+        
+        <?php foreach ($rooms as $room):
+          if ($room['room_type_id'] == 11){ ?>
         <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="100">
           <a href="#" class="image d-block bg-image-2" style="background-image: url('images/img_3.jpg');"></a>
           <div class="text">
-            <span class="d-block mb-4"><span class="display-4 text-primary">$249</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-            <h2 class="mb-4">Presidential Room</h2>
-            <p>388–420sqf | 36–39sqm | Bay view</p>
+            <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+            <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name'])?></h2>
+            <p><?php echo htmlspecialchars($room['room_size'])?> | <?php echo htmlspecialchars($room['room_features'])?></p>
             <p><a href="login.php" class="btn btn-primary text-white">Book Now</a></p>
           </div>
         </div>
+        <?php }
+          if ($room['room_type_id'] == 17){ ?>
         <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="200">
           <a href="#" class="image d-block bg-image-2 order-2" style="background-image: url('images/img_4.jpg');"></a>
           <div class="text order-1">
-            <span class="d-block mb-4"><span class="display-4 text-primary">$349</span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-            <h2 class="mb-4">Presidential Suite</h2>
-            <p>970sqf | 90sqm | Bay view / City view | Club access</p>
+            <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+            <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name'])?></h2>
+            <p><?php echo htmlspecialchars($room['room_size'])?> | <?php echo htmlspecialchars($room['room_features'])?> | Club access</p>
             <p><a href="login.php" class="btn btn-primary text-white">Book Now</a></p>
           </div>
         </div>
-
+        <?php } 
+      endforeach; ?>
       </div>
     </section>
     
