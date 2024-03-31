@@ -35,8 +35,6 @@ if (!$config) {
         while ($row = $result->fetch_assoc()) {
             $cartItems[] = $row;
         }
-    } else {
-        echo "Your cart is empty.";
     }
 
     $stmt->close();
@@ -117,7 +115,7 @@ if (!$config) {
     </form>
     <br>
     <?php else: ?>
-    <p>Your cart is empty.</p>
+    <p><h3>Your cart is empty.</h3></p>
     <?php endif; ?>
     </div>
     <?php include "footer.inc.php"; ?>

@@ -102,6 +102,9 @@ $totalPrice = (float)$totalPrice; // Cast to float to ensure correct data type f
     </section>
 
     <?php include "footer.inc.php"; ?>
+    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
+    <script src="js/main.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('pk_test_51I3z2RGZozntPACPhMi6lw9NJv0FkRglcMc7zOsSinytCCsHeDKBQ0zjzmtDrwheZlyJQPdKObnAXWnqtT3Z076t00mHvFFIhz');

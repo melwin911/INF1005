@@ -213,7 +213,7 @@ if (!$config) {
                 </div>
                 <div class="modal-footer" style="border-top: none;">
                   <span class="display-4 text-primary" style="font-size: 2.5rem;">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-1">/ per night</span>
-                  <button type="button" class="btn btn-primary text-white">Book</button>
+                  <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-white">Book Now</a></p>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ function renderNavbar($currentPage) {
         'Rooms' => 'rooms.php',
         'About' => 'about.php',
         'Booking Cart' => 'view_cart.php',
+        'View My Bookings' => 'view_my_bookings.php',
         'User Profile' => 'user_profile.php',
         'Logout' => 'logout.php',
     ];

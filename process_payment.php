@@ -39,6 +39,9 @@ try {
             $config['dbname']
         );
 
+        // Generate a unique order ID before starting the booking transaction
+        $orderId = time();
+
         // Prepare to select cart items
         $stmt = $conn->prepare("SELECT * FROM cart_items WHERE cart_id = (SELECT cart_id FROM carts WHERE member_id = ?)");
         $stmt->bind_param("i", $memberId);
@@ -70,8 +73,8 @@ try {
                 $stmt->execute();
 
                 // Insert booking record
-                $stmt = $conn->prepare("INSERT INTO bookings (member_id, room_id, check_in_date, check_out_date, total_price, num_rooms, num_guests, guest_name, guest_email, guest_phone, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-                $stmt->bind_param("iissiiisss", $memberId, $roomId, $cartItem['check_in_date'], $cartItem['check_out_date'], $amount, $cartItem['num_rooms'], $cartItem['num_guests'], $cartItem['guest_name'], $cartItem['guest_email'], $cartItem['guest_phone']);
+                $stmt = $conn->prepare("INSERT INTO bookings (room_type_id, order_id, member_id, room_id, check_in_date, check_out_date, total_price, num_rooms, num_guests, guest_name, guest_email, guest_phone, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+                $stmt->bind_param("iiiissiiisss", $cartItem['room_type_id'], $orderId, $memberId, $roomId, $cartItem['check_in_date'], $cartItem['check_out_date'], $amount, $cartItem['num_rooms'], $cartItem['num_guests'], $cartItem['guest_name'], $cartItem['guest_email'], $cartItem['guest_phone']);
                 $stmt->execute();
             }
 
@@ -106,3 +109,4 @@ try {
     }
     echo "Error: " . $e->getMessage();
 }
+?>
