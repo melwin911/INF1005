@@ -35,13 +35,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     $result = authenticateUser($email, $password, $secretKey);
     $success = $result['success'];
     
-    if ($success == true && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    // Check if the user is an admin
+    if ($success && $email == 'admin@admin.com' && $password == 'admin') {
+        // Successful admin login, include admin pages
+        include "admin_head.inc.php";
+        include "header.inc.php";
+        include "view_bookings.php";
+        include "footer.inc.php";
+    } elseif ($success && isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         // Successful login, include member pages
         include "head.inc.php";
         include "header.inc.php";
         include "member_headsection.inc.php";
         include "footer.inc.php";
-    } elseif ($success == false) {
+    } else {
         $_SESSION['error'] = $result['message'];
         // Failed login, include non-member pages and error message
         include "head.inc.php";
