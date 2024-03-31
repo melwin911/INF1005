@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
 
 
+
   <script src="js/jquery-3.3.1.min.js"></script>
    
      
@@ -29,12 +30,15 @@
     <script src="js/jquery.stellar.min.js"></script>
     <script src="js/jquery.fancybox.min.js"></script>
 
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
       
     <script src="js/bootstrap-datepicker.js"></script> 
     <script src="js/jquery.timepicker.min.js"></script> 
 
     <script src="js/aos.js"></script>
     <script src="js/main.js"></script>
+
 
     <!-- CSS stylesheet -->
     <link rel="stylesheet" href="css/style.css">

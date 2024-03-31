@@ -305,6 +305,22 @@ textarea.form-control {
     -ms-transform: rotate(-135deg);
     transform: rotate(-135deg); }
 
+    #google_translate_element {
+      margin-right: 100px; /* Adjust as needed for spacing */
+  }
+  
+  /* Optional styles for the Google Translate element */
+  .goog-te-gadget-simple {
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+  }
+  
+  /* Optional styles for the toggle icon */
+  .site-menu-toggle span {
+      background-color: #000; /* Adjust the color as needed */
+  }
+
 .section {
   padding: 7em 0; }
   @media (max-width: 991.98px) {
