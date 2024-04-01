@@ -203,12 +203,13 @@
 
   let roomsData = [
     { type: 'Single Room', available: true, price: '$90', availability: '4' },
-    { type: 'Family Room', available: true, price: '$120', availability: '2' },
-    { type: 'Presidential Room', available: true, price: '$250', availability: '2' },
-    { type: 'Courtyard Room', available: true, price: '$150', availability: '4' },
-    { type: 'Quay Room', available: true, price: '$200', availability: '1' },
-    { type: 'Presidential Suite', available: true, price: '$350', availability: '1' },
-    { type: 'Executive Suite', available: true, price: '$450', availability: '2' },
+    { type: 'Family Room', available: true, price: '$310', availability: '4' },
+    { type: 'Presidential Room', available: true, price: '$405', availability: '4' },
+    { type: 'Courtyard Room', available: true, price: '$280', availability: '4' },
+    { type: 'Quay Room', available: true, price: '$280', availability: '2' },
+    { type: 'Presidential Suite', available: true, price: '$580', availability: '2' },
+    { type: 'Executive Suite', available: true, price: '$640', availability: '2' },
+    { type: 'Cozy Room', available: true, price: '$220', availability: '2' },
   ];
 
 })(jQuery);
