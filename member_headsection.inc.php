@@ -3,12 +3,9 @@
 // Start the session
 session_start();
 
-// Check if session variables are set
-if (isset($_SESSION['fname']) && isset($_SESSION['lname'])) {
-    $fname = $_SESSION['fname'];
-    $lname = $_SESSION['lname'];
-}
-
+// Define variables
+$fname = isset($_SESSION['fname']) ? $_SESSION['fname'] : '';
+$lname = isset($_SESSION['lname']) ? $_SESSION['lname'] : '';
 $loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : false;
 $errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 
@@ -18,17 +15,18 @@ $errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
             <div class="col-md-10 text-center" data-aos="fade">
-                <?php if ($loggedin): ?>
+                <?php if ($loggedin): // check if login was successful ?>
                     <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
-                    <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: white;">Return to Home</a></button>
+                    <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: black;">Return to Home</a></button>
                 <?php else: ?>
-                    <?php if (!empty($errorMsg)): ?>
+                    
+                    <?php if (!empty($errorMsg)): // check if there are any errors ?>
                         <h1 class="heading mb-3"><?php echo "Oops! " . $errorMsg; ?></h1>
-                        <button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: white;">Try Logging In Again</a></button>
+                        <button class="btn btn-primary"><a href="login.php" style="text-decoration: none; color: black;">Try Logging In Again</a></button>
                         <?php unset($_SESSION['error']); ?>
-                    <?php else: ?>
+                    <?php else: // When user logged out --> $loggedin = false?>
                         <h1 class="heading mb-3">Goodbye and have a great day ahead!</h1>
-                        <button class="btn btn-primary"><a href="index.php" style="text-decoration: none; color: white;">Return to Home</a></button>
+                        <button class="btn btn-primary"><a href="index.php" style="text-decoration: none; color: black;">Return to Home</a></button>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

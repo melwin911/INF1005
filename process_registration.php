@@ -1,80 +1,57 @@
 <?php
 // Initialize variables
-$email = $firstName = $lastName = $gender = $password = $confirmPassword = $errorMsg = "";
+$email = $firstName = $lastName = $gender = $password = $confirmPassword = "";
+$errorMsg = [];
 $success = true;
 
 // Check if form fields are set
-if (empty($_POST["email"]))
-{
-    $errorMsg .= "Email is required.<br>";
+if (empty($_POST["email"])) {
+    $errorMsg[] = "Email is required.<br>";
     $success = false;
-}
-else
-{
+} else {
     $email = sanitize_input($_POST["email"]);
     // Additional check to make sure e-mail address is well-formed.
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-    {
-        $errorMsg .= "Invalid email format.";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errorMsg[] = "Invalid email format.";
         $success = false;
-    }
-    elseif(emailExists($email))
-    {
-        $errorMsg .= "Email already exists.";
+    } elseif (emailExists($email)) {// Check if email already exists in the database
+        $errorMsg[] = "Email already exists.";
         $success = false;
     }
 }
 
-if (empty($_POST["gender"]))
-{
-    $errorMsg .= "gender is required.";
+if (empty($_POST["gender"])) {
+    $errorMsg[] = "gender is required.";
     $success = false;
-}
-else
-{
+} else {
     $gender = sanitize_input($_POST["gender"]);
 }
 
-if (empty($_POST["lname"]))
-{
-    $errorMsg .= "Last Name is required.";
+if (empty($_POST["lname"])) {
+    $errorMsg[] = "Last Name is required.";
     $success = false;
-}
-else
-{
+} else {
     $lastName = sanitize_input($_POST["lname"]);
 }
 
-if (empty($_POST["fname"]))
-{
-    $firstName = sanitize_input($_POST["fname"]);
-}
-else
-{
+if (!empty($_POST["fname"])) {
     $firstName = sanitize_input($_POST["fname"]);
 }
 
-if (empty($_POST["pwd"]))
-{
-    $errorMsg .= "Password is required.";
+if (empty($_POST["pwd"])) {
+    $errorMsg[] = "Password is required.";
     $success = false;
-}
-else
-{
+} else {
     $password = $_POST["pwd"]; // No need to sanitize password because it typically contain special characters
 }
 
-if (empty($_POST["pwd_confirm"]))
-{
-    $errorMsg .= "Confirm Password is required.";
+if (empty($_POST["pwd_confirm"])) {
+    $errorMsg[] = "Confirm Password is required.";
     $success = false;
-}
-else
-{
+} else {
     $confirmPassword = $_POST["pwd_confirm"];
-    if ($confirmPassword !== $password)
-    {
-        $errorMsg .= "Passwords do not match.";
+    if ($confirmPassword !== $password) {
+        $errorMsg[] = "Passwords do not match.";
         $success = false;
     }
 }
@@ -82,8 +59,7 @@ else
 session_start();
 
 if ($success) {
-    // If signup was successful, set session variables for success and user's name
-    $_SESSION['signup_success'] = true;
+    // If signup was successful, set user's name
     $_SESSION['fname'] = $firstName; // Assuming $firstName is set during signup
     $_SESSION['lname'] = $lastName;   // Assuming $lastName is set during signup
     // Proceed to hash the password and save the member to the database
@@ -117,11 +93,12 @@ function sanitize_input($data)
 function saveMemberToDB()
 {
     global $firstName, $lastName, $gender, $email, $hashedPassword, $errorMsg, $success;
+    $_SESSION['signup_success'] = true;
     // Create database connection.
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
-        $errorMsg = "Failed to read database config file.";
-        $success = false;
+        $_SESSION['signup_success'] = false;
+        $errorMsg[] = "Failed to read database config file.";
     } else {
         $conn = new mysqli(
             $config['servername'],
@@ -131,8 +108,8 @@ function saveMemberToDB()
         );
         // Check connection
         if ($conn->connect_error) {
-            $errorMsg = "Connection failed: " . $conn->connect_error;
-            $success = false;
+            $_SESSION['signup_success'] = false;
+            $errorMsg[] = "Connection failed: " . $conn->connect_error;
         }
         // Check if the email already exists
         $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
@@ -140,9 +117,9 @@ function saveMemberToDB()
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows > 0) {
+            $_SESSION['signup_success'] = false;
             // Email already exists
-            $errorMsg .= "This email is already registered.<br>";
-            $success = false;
+            $errorMsg[] = "This email is already registered.<br>";
         } else {
             // Prepare the statement:
             $stmt = $conn->prepare("INSERT INTO hotel_members
@@ -150,14 +127,14 @@ function saveMemberToDB()
             // Bind & execute the query statement:
             $stmt->bind_param("sssss", $firstName, $lastName, $gender, $email, $hashedPassword);
             if (!$stmt->execute()) {
-                $errorMsg = "Execute failed: (" . $stmt->errno . ") " .
-                    $stmt->error;
-                $success = false;
+                $errorMsg[] = "Execute failed: (" . $stmt->errno . ") " .$stmt->error;
+                $_SESSION['signup_success'] = false;
             }
             $stmt->close();
         }
         $conn->close();
     }
+    return ['message' => $errorMsg];
 }
 
 function emailExists($email) {
@@ -165,30 +142,28 @@ function emailExists($email) {
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
         return false; // Return false if unable to read database config file.
-    }
-
-    $conn = new mysqli(
+    } else {
+        $conn = new mysqli(
         $config['servername'],
         $config['username'],
         $config['password'],
         $config['dbname']
-    );
+        );
 
-    // Check connection
-    if ($conn->connect_error) {
-        return false; // Return false if unable to connect to the database.
+        // Check connection
+        if ($conn->connect_error) {
+            return false; // Return false if unable to connect to the database.
+        } else {
+            // Prepare the statement:
+            $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $stmt->store_result();
+            $exists = $stmt->num_rows > 0;
+        }
+        $stmt->close();
+        $conn->close();
     }
-
-    // Prepare the statement:
-    $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-    $exists = $stmt->num_rows > 0;
-
-    $stmt->close();
-    $conn->close();
-
     return $exists;
 }
 ?>
