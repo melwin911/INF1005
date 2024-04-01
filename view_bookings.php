@@ -47,9 +47,20 @@ if ($conn->connect_error) {
 // Handle editing
 if (isset($_POST['edit_booking'])) {
     $booking_id = $_POST['booking_id'];
-    // Redirect to edit booking page with booking ID as a query parameter
-    header("Location: view_bookings.php?action=edit&id=$booking_id");
-    exit;
+    $guest_name = $_POST['guest_name'];
+    $guest_email = $_POST['guest_email'];
+    $guest_phone = $_POST['guest_phone'];
+    
+    // Perform update query
+    $sql = "UPDATE bookings 
+            SET guest_name = '$guest_name', guest_email = '$guest_email', guest_phone = '$guest_phone' 
+            WHERE booking_id = $booking_id";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Booking updated successfully.";
+    } else {
+        echo "Error updating booking: " . $conn->error;
+    }
 }
 
 // Handle deletion
@@ -71,8 +82,8 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // Display data in a table format
     echo "<h2 style='padding-top: 100px; padding-left: 100px; padding-right: 100px; margin-left: 100px;'>Total Bookings</h2>";
-echo "<table border='1' style='margin-top: 50px; margin-bottom: 50px; padding-left: 100px; padding-right: 100px; margin-left: 100px;'>";
-echo "<tr>
+    echo "<table border='1' style='margin-top: 50px; margin-bottom: 50px; padding-left: 100px; padding-right: 100px; margin-left: 100px;'>";
+    echo "<tr>
     <th style='text-align: center;'>Booking ID</th>
     <th style='text-align: center;'>Member ID</th>
     <th style='text-align: center;'>Room ID</th>
@@ -87,35 +98,66 @@ echo "<tr>
     <th style='text-align: center;'>Actions</th>
     </tr>";
 
-while ($row = $result->fetch_assoc()) {
-    echo "<tr>";
-    echo "<td style='text-align: center;'>" . $row['booking_id'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['member_id'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['room_id'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['check_in_date'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['check_out_date'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['total_price'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['num_rooms'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['num_guests'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['guest_name'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['guest_email'] . "</td>";
-    echo "<td style='text-align: center;'>" . $row['guest_phone'] . "</td>";
-    echo "<td style='text-align: center;'>
-        <form method='post'>
-            <input type='hidden' name='booking_id' value='" . $row['booking_id'] . "'>
-            <input type='submit' name='edit_booking' value='Edit'>
-            <input type='submit' name='delete_booking' value='Delete' onclick='return confirm(\"Are you sure?\")'>
-        </form>
-    </td>";
-    echo "</tr>";
-}
-echo "</table>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $row['booking_id'] . "</td>";
+        echo "<td>" . $row['member_id'] . "</td>";
+        echo "<td>" . $row['room_id'] . "</td>";
+        echo "<td>" . $row['check_in_date'] . "</td>";
+        echo "<td>" . $row['check_out_date'] . "</td>";
+        echo "<td>" . $row['total_price'] . "</td>";
+        echo "<td>" . $row['num_rooms'] . "</td>";
+        echo "<td>" . $row['num_guests'] . "</td>";
+        echo "<td><span contenteditable='true' id='guest_name_" . $row['booking_id'] . "'>" . $row['guest_name'] . "</span></td>";
+        echo "<td><span contenteditable='true' id='guest_email_" . $row['booking_id'] . "'>" . $row['guest_email'] . "</span></td>";
+        echo "<td><span contenteditable='true' id='guest_phone_" . $row['booking_id'] . "'>" . $row['guest_phone'] . "</span></td>";
+        echo "<td>
+            <button onclick='editRow(" . $row['booking_id'] . ")'>Edit</button>
+            <button onclick='saveChanges(" . $row['booking_id'] . ")' style='display:none'>Save</button>
+            <form method='post' style='display: inline;'>
+                <input type='hidden' name='booking_id' value='" . $row['booking_id'] . "'>
+                <input type='submit' name='delete_booking' value='Delete' onclick='return confirm(\"Are you sure?\")'>
+            </form>
+        </td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 } else {
     echo "No bookings found";
 }
 $conn->close();
 }
 ?>
+
+<script>
+    function editRow(bookingId) {
+        var elements = document.querySelectorAll('#guest_name_' + bookingId + ', #guest_email_' + bookingId + ', #guest_phone_' + bookingId);
+        elements.forEach(element => {
+            element.contentEditable = true;
+        });
+        document.querySelector('button[onclick="editRow(' + bookingId + ')"]').style.display = 'none';
+        document.querySelector('button[onclick="saveChanges(' + bookingId + ')"]').style.display = 'inline-block';
+    }
+
+    function saveChanges(bookingId) {
+        var guestName = document.getElementById('guest_name_' + bookingId).innerText;
+        var guestEmail = document.getElementById('guest_email_' + bookingId).innerText;
+        var guestPhone = document.getElementById('guest_phone_' + bookingId).innerText;
+        var bookingIdField = document.createElement('input');
+        bookingIdField.type = 'hidden';
+        bookingIdField.name = 'booking_id';
+        bookingIdField.value = bookingId;
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.appendChild(bookingIdField);
+        form.innerHTML += '<input type="hidden" name="edit_booking">';
+        form.innerHTML += '<input type="hidden" name="guest_name" value="' + guestName + '">';
+        form.innerHTML += '<input type="hidden" name="guest_email" value="' + guestEmail + '">';
+        form.innerHTML += '<input type="hidden" name="guest_phone" value="' + guestPhone + '">';
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 
   <!-- Start of footer -->
   <?php
