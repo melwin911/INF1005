@@ -38,72 +38,81 @@ $totalPrice = (float)$totalPrice; // Cast to float to ensure correct data type f
     renderNavbar('Booking Cart');
     ?>
 
-<section class="section">
-        <div class="container">
-            <h2>Payment Details</h2>
-            <p>Total amount to be charged: $<?php echo number_format($totalPrice, 2); ?></p>
-            <form id="payment-form" action="process_payment.php" method="post">
-            <input type="hidden" name="amount" value="<?php echo htmlspecialchars($totalPrice); ?>">
-                <!-- Billing Details -->
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Jane Doe" required>
-                </div>
+    <div class="container mt-4">
+        <?php
+        // Check if an error message exists in the URL query parameters
+        if (isset($_GET['error'])) {
+            $errorMessage = $_GET['error'];
+            // Display the error message
+            echo "<div class='alert alert-danger'>$errorMessage</div>";
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="jane.doe@example.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="address_line1">Address Line 1:</label>
-                    <input type="text" id="address_line1" name="address_line1" class="form-control" placeholder="123 Main St" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="address_line2">Address Line 2:</label>
-                    <input type="text" id="address_line2" name="address_line2" class="form-control" placeholder="Apt 4B">
-                </div>
-
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    <input type="text" id="city" name="city" class="form-control" placeholder="Anytown" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="state">State/Province:</label>
-                    <input type="text" id="state" name="state" class="form-control" placeholder="State" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="zip">Postal Code:</label>
-                    <input type="text" id="zip" name="zip" class="form-control" placeholder="12345" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="country">Country:</label>
-                    <input type="text" id="country" name="country" class="form-control" placeholder="Country" required>
-                </div>
-
-                <!-- Credit or debit card element -->
-                <div class="form-group">
-                    <label for="card-element">Credit or debit card</label>
-                    <div id="card-element">
-                        <!-- A Stripe Element will be inserted here. -->
-                    </div>
-                </div>
-
-                <!-- Error Element -->
-                <div id="card-errors" role="alert"></div>
-
-                <button type="submit" class="btn btn-primary">Submit Payment</button>
-            </form>
+            // Unset the error message to clear it
+            unset($_GET['error']);
+        }
+        ?>
+        <div class="back-button">
+            <button onclick="window.location.href = 'view_cart.php'" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
         </div>
-    </section>
+        <h2>Payment Details</h2>
+        <p>Total amount to be charged: $<?php echo number_format($totalPrice, 2); ?></p>
+        <form id="payment-form" action="process_payment.php" method="post">
+            <input type="hidden" name="amount" value="<?php echo htmlspecialchars($totalPrice); ?>">
+            <!-- Billing Details -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="john.doe@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address_line1">Address:</label>
+                <input type="text" id="address_line1" name="address_line1" class="form-control" placeholder="123 Main St" required>
+            </div>
+
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" class="form-control" placeholder="Anytown" required>
+            </div>
+
+            <div class="form-group">
+                <label for="state">State/Province:</label>
+                <input type="text" id="state" name="state" class="form-control" placeholder="State" required>
+            </div>
+
+            <div class="form-group">
+                <label for="zip">Postal Code:</label>
+                <input type="text" id="zip" name="zip" class="form-control" placeholder="12345" required>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" class="form-control" placeholder="Country" required>
+            </div>
+
+            <!-- Credit or debit card element -->
+            <div class="form-group">
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+            </div>
+
+            <!-- Error Element -->
+            <div id="card-errors" role="alert"></div>
+
+            <button type="submit" class="btn btn-primary">Make Payment</button>
+        </form>
+    </div><br>
 
     <?php include "footer.inc.php"; ?>
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
-<script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
+    <script src="https://mediafiles.botpress.cloud/5839c45b-a068-4754-9a6c-6e58dee3de97/webchat/config.js" defer></script>
     <script src="js/main.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script>

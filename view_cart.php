@@ -87,7 +87,7 @@ if (!$config) {
                 ?>
             <tr>
                 <td><input type="checkbox" name="selected_rooms[]" value="<?= htmlspecialchars($item['item_id']) ?>" data-price="<?= $totalPrice ?>" onchange="updateTotal()"></td>
-                <td><img src="images/<?php echo htmlspecialchars($item['image_path'])?>" alt="Room image" class="img-fluid mb-3"></td>
+                <td><img src="images/rooms/<?php echo htmlspecialchars($item['image_path'])?>" alt="Room image" class="img-fluid mb-3"></td>
                 <td><?= htmlspecialchars($item['room_type']) ?></td>
                 <td>$<?=number_format($totalPrice, 2)?></td>
                 <td><?= htmlspecialchars($item['check_in_date']) ?></td>
@@ -174,7 +174,17 @@ document.querySelectorAll('input[name="selected_rooms[]"]').forEach((checkbox) =
 });
 
 // Check the initial state of buttons on page load
-document.addEventListener('DOMContentLoaded', checkButtonsState);
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('input[name="selected_rooms[]"]').forEach((checkbox) => {
+        checkbox.addEventListener('change', () => {
+            updateTotal();
+            checkButtonsState();
+        });
+    });
+
+    checkButtonsState();
+    updateTotal();
+});
 </script>
     </main>
 </body>

@@ -120,41 +120,8 @@ if (!$config) {
                                     <td><?= htmlspecialchars($order['check_out_date']) ?></td>
                                     <td><?= htmlspecialchars($order['total_rooms']) ?> rooms</td>
                                     <td><?= htmlspecialchars($order['total_guests']) ?> guests</td>
-                                    <td><button type="button" class="btn btn-link" data-toggle="modal" data-target="#bookingDetailsModal<?= $order['order_id'] ?>" style="color: black; text-decoration: underline; padding: 0; margin: 0;">
-                                            View Details
-                                        </button></td>
+                                    <td><a href="view_my_booking_details.php?order_id=<?= urlencode($order['order_id']) ?>" class="btn btn-link" style="color: black; text-decoration: underline; padding: 0; margin: 0;">View Details</a></td>
                                 </tr>
-                                <div class="modal fade" id="bookingDetailsModal<?= $order['order_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="bookingDetailsLabel<?= $order['order_id'] ?>" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="bookingDetailsLabel<?= $order['order_id'] ?>">Booking Details for Order <?= htmlspecialchars($order['order_id']) ?></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <!-- Loop through $bookings to display detailed information -->
-                                                <?php foreach ($bookings as $booking) : ?>
-                                                    <?php if ($booking['order_id'] == $order['order_id']) : ?>
-                                                        <p>Room Type: <?= htmlspecialchars($booking['room_type']) ?></p>
-                                                        <p>Check-in Date: <?= htmlspecialchars($booking['check_in_date']) ?></p>
-                                                        <p>Check-out Date: <?= htmlspecialchars($booking['check_out_date']) ?></p>
-                                                        <p>Total Price: $<?= htmlspecialchars($booking['total_price']) ?></p>
-                                                        <p>Guest Name: <?= htmlspecialchars($booking['guest_name']) ?></p>
-                                                        <p>Guest Email: <?= htmlspecialchars($booking['guest_email']) ?></p>
-                                                        <p>Guest Phone: <?= htmlspecialchars($booking['guest_phone']) ?></p>
-                                                        <p>Booking Time: <?= htmlspecialchars($booking['created_at']) ?></p>
-                                                        <!-- Add more booking details as necessary -->
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

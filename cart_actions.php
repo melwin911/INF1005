@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     switch ($action) {
         case 'checkout':
+            $_SESSION['selected_rooms'] = $selectedRooms; // Store in session
             // Redirect to payment.php
             header('Location: payment.php');
             exit;
