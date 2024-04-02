@@ -1,4 +1,4 @@
-<header class="site-header js-site-header">
+<header class="site-header js-site-header" aria-label="header">
     <div class="container-fluid">
         <div class="row align-items-center">
             <div class="col-6 col-lg-4 site-logo" data-aos="fade"><a href="index.php">5 Hotel</a></div>

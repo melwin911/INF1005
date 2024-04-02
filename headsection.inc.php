@@ -9,7 +9,7 @@ $errorMsg = isset($_SESSION['error_msg']) ? $_SESSION['error_msg'] : '';
 
 ?>
 
-<header>
+<div aria-label="headsection">
 <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
@@ -33,4 +33,4 @@ $errorMsg = isset($_SESSION['error_msg']) ? $_SESSION['error_msg'] : '';
         </div>
     </div>
 </section>
-                        </header>
+                        </div>
