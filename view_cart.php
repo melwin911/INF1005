@@ -26,7 +26,9 @@ if (!$config) {
     );
 
     $cartItems = [];
-    $stmt = $conn->prepare("SELECT ci.*, rt.room_type, rt.image_path, rt.price_per_night FROM cart_items ci JOIN carts c ON ci.cart_id = c.cart_id JOIN room_types rt ON ci.room_type_id = rt.room_type_id WHERE c.member_id = ?");
+    $stmt = $conn->prepare("SELECT ci.item_id, ci.cart_id, ci.room_type_id, DATE_FORMAT(ci.check_in_date, '%d-%m-%Y') AS check_in_date, DATE_FORMAT(ci.check_out_date, '%d-%m-%Y') AS check_out_date,
+    ci.num_rooms, ci.num_guests, ci.guest_name, ci.guest_email, ci.guest_phone, DATE_FORMAT(ci.created_at, '%d-%m-%Y') AS created_at,
+    rt.room_type, rt.image_path, rt.price_per_night FROM cart_items ci JOIN carts c ON ci.cart_id = c.cart_id JOIN room_types rt ON ci.room_type_id = rt.room_type_id WHERE c.member_id = ?");
     $stmt->bind_param("i", $memberId);
     $stmt->execute();
     $result = $stmt->get_result();

@@ -162,7 +162,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
           foreach ($rooms as $room): 
             if ($room_listing_count < 3) { ?>
           <div class="col-md-6 col-lg-4" data-aos="fade-up">
-            <a href="#" class="room">
+            <a href="/rooms.php" class="room">
               <figure class="img-wrap">
                 <img src="<?php echo htmlspecialchars($room['room_image_path'])?>" alt="<?php echo htmlspecialchars($room['room_type_name'])?> image" class="img-fluid mb-3">
               </figure>

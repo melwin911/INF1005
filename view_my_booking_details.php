@@ -39,10 +39,10 @@ if (!$config) {
         b.guest_name,
         b.guest_email,
         b.guest_phone,
-        b.created_at,
+        DATE_FORMAT(b.created_at, '%d-%m-%Y') as created_at,
         rt.room_type,
-        MIN(b.check_in_date) AS check_in_date, 
-        MAX(b.check_out_date) AS check_out_date,
+        DATE_FORMAT(MIN(b.check_in_date), '%d-%m-%Y') AS check_in_date,
+        DATE_FORMAT(MAX(b.check_out_date), '%d-%m-%Y') AS check_out_date,
         MAX(b.num_rooms) AS total_rooms, 
         MAX(b.num_guests) AS total_guests
         FROM bookings b
@@ -91,8 +91,8 @@ if (!$config) {
                 <h2 class="heading" data-aos="fade-up">Order <?= htmlspecialchars($order_id) ?></h2>
                 <?php foreach ($bookings as $booking) : ?>
                     <div class="booking-details-container">
-                        <h1>Booking Confirmation for <?= $booking['room_type'] ?>: #<?= $booking['booking_id'] ?></h1><br>
-                        <h1>Booking Confirmation Date: <?= $booking['created_at'] ?></h1><br>
+                        <h2><b>Booking Confirmation for <?= $booking['room_type'] ?>: #<?= $booking['booking_id'] ?></b></h2>
+                        <h2><b>Booking Confirmation Date: <?= $booking['created_at'] ?></b></h2><br>
                         <section class="guest-info">
                             <h2>Guest Information</h2>
                             <p><strong><b>Name:</strong></b> <?= $booking['guest_name'] ?></p>

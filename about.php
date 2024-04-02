@@ -97,7 +97,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         <p><span class="d-block">Singapore Institite of Technology @ NYP</span></p>
         <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>172A Ang Mo Kio Avenue 8, Singapore 567739</span></p>
         <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span><a href="tel:+6565921189">(+65) 6592 1189</a></span></p>
-        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span> <a href="mailto:test@test.com">test@test.com</span></p>
+        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span> <a href="mailto:enquiries@fivestarhotel.com">enquiries@fivestarhotel.com</span></p>
       </div>
     </div>
   </div>

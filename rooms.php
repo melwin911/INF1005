@@ -244,7 +244,7 @@ if (!$config) {
             <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name'])?></h2>
             <p><?php echo htmlspecialchars($room['room_size'])?> | <?php echo htmlspecialchars($room['room_features'])?></p>
-            <p><a href="login.php" class="btn btn-primary text-white">Book Now</a></p>
+            <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
           </div>
         </div>
         <?php }
@@ -255,7 +255,7 @@ if (!$config) {
             <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd'])?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
             <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name'])?></h2>
             <p><?php echo htmlspecialchars($room['room_size'])?> | <?php echo htmlspecialchars($room['room_features'])?> | Club access</p>
-            <p><a href="login.php" class="btn btn-primary text-white">Book Now</a></p>
+            <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
           </div>
         </div>
         <?php } 

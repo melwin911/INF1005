@@ -31,23 +31,25 @@ if (!$config) {
     $stmt = $conn->prepare("
         SELECT 
         order_id, 
-        MIN(check_in_date) AS check_in_date, 
-        MAX(check_out_date) AS check_out_date, 
+        DATE_FORMAT(MIN(check_in_date), '%d-%m-%Y') AS check_in_date, 
+        DATE_FORMAT(MAX(check_out_date),'%d-%m-%Y') AS check_out_date, 
         SUM(num_rooms) as total_rooms,  
-        SUM(num_guests) as total_guests
+        SUM(num_guests) as total_guests,
+        DATE_FORMAT(created_at, '%d-%m-%Y') AS created_at
         FROM (
             SELECT 
                 order_id, 
                 check_in_date, 
                 check_out_date, 
                 room_type_id, 
+                created_at,
                 MAX(num_rooms) AS num_rooms, 
                 MAX(num_guests) AS num_guests
             FROM bookings
             WHERE member_id = ?
-            GROUP BY order_id, room_type_id, check_in_date, check_out_date
+            GROUP BY order_id, room_type_id, check_in_date, check_out_date, created_at
         ) AS unique_bookings
-        GROUP BY order_id;
+        GROUP BY order_id, created_at;
     ");
     $stmt->bind_param("i", $memberId);
     $stmt->execute();
@@ -105,6 +107,7 @@ if (!$config) {
                         <thead>
                             <tr>
                                 <th>Booking Number</th>
+                                <th>Confirmation Date</th>
                                 <th>Check-in Date</th>
                                 <th>Check-out Date</th>
                                 <th>Number of Rooms</th>
@@ -116,6 +119,7 @@ if (!$config) {
                             <?php foreach ($orders as $order) : ?>
                                 <tr>
                                     <td><?= htmlspecialchars($order['order_id']) ?></td>
+                                    <td><?= htmlspecialchars($order['created_at']) ?></td>
                                     <td><?= htmlspecialchars($order['check_in_date']) ?></td>
                                     <td><?= htmlspecialchars($order['check_out_date']) ?></td>
                                     <td><?= htmlspecialchars($order['total_rooms']) ?> rooms</td>
