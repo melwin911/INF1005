@@ -1,4 +1,11 @@
-<!-- Hamburger menu for members-->
+<!-- Hamburger menu for admin-->
+<div class="site-menu-toggle js-site-menu-toggle" data-aos="fade">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+<!-- Hamburger menu for admin-->
 <div class="site-navbar js-site-navbar">
               <nav role="navigation">
                 <div class="container">
