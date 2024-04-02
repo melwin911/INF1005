@@ -50,10 +50,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     // Check if the user is an admin
     if ($success && $email == 'admin@admin.com' && $password == 'admin') {
         // Successful admin login, include admin pages
-        include "admin_head.inc.php";
-        include "header.inc.php";
-        include "view_bookings.php";
-        include "footer.inc.php";
+        //include "admin_head.inc.php";
+        //include "header.inc.php";
+        //include "view_bookings.php";
+        //include "footer.inc.php";
+        // Redirect to View Bookings Page
+        header('Location: view_bookings.php');
     } else {
         // Process the result, which includes handling errors or no errors
         $_SESSION['error'] = $result['message'];
