@@ -57,7 +57,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         <h1>Member Login</h1> 
         <p> 
             Existing members log in here. For new members, please sign up at 
-            <a href="registration.php">Registration page</a>. 
+            <a href="registration.php" style="color: #333; text-decoration: underline;">Registration page</a>. 
         </p> 
         <form action="process_login.php" method="post"> 
             <div class="mb-3"> 
