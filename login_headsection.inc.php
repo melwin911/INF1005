@@ -12,6 +12,8 @@ if (isset($_SESSION['fname']) && isset($_SESSION['lname'])) {
 $loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : false;
 ?>
 
+
+<header>
 <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
@@ -27,3 +29,4 @@ $loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : false;
         </div>
     </div>
 </section>
+</header>

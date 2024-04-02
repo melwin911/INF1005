@@ -12,6 +12,7 @@ $errorMsg = isset($_SESSION['errorMsg']) ? $_SESSION['errorMsg'] : '';
 if (!empty($errorMsg)) {
 ?>
 
+<header>
 <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
@@ -24,12 +25,14 @@ if (!empty($errorMsg)) {
         </div>
     </div>
 </section>
+</header>
 
 <?php
 } else if ($loggedin) {
     // Logic for logged-in users
 ?>
 
+<header>
 <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)">
     <div class="container">
         <div class="row site-hero-inner justify-content-center align-items-center">
@@ -40,6 +43,7 @@ if (!empty($errorMsg)) {
         </div>
     </div>
 </section>
+</header>
 
 <?php
 } else {

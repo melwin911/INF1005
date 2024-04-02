@@ -8,6 +8,7 @@ function renderNavbar($currentPage) {
 ?>
 
 <!-- start of head section -->
+<header>
 <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)">
   <div class="container">
     <div class="row site-hero-inner justify-content-center align-items-center">
@@ -29,6 +30,7 @@ function renderNavbar($currentPage) {
     </div>
   </div>
 </section>
+              </header>
 
 <?php
 }

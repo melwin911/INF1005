@@ -14,7 +14,7 @@
     <div class="contact-details">
       <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>Address:</span> <span> 172A Ang Mo Kio <br> Avenue 8, Singapore 567739</span></p>
       <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span>Phone:</span> <span> <a href="tel:+6565921189">(+65) 6592 1189</a></span></p>
-      <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span>Email:</span> <span> <a href="enquiries@fivestarhotel.com">enquiries@fivestarhotel.com</span></p>
+      <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span>Email:</span> <span> <span><a href="mailto:enquiries@fivestarhotel.com" aria-label="Email enquiries@fivestarhotel.com">enquiries@fivestarhotel.com</a></span></p>
     </div>
   </div>
 

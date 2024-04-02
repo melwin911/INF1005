@@ -13,7 +13,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 ?>
 
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <?php
     include "head.inc.php";
     ?>
@@ -32,7 +32,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             ?>
             <!-- End of navbar  -->
 
-    <section class="section bg-light pb-0"  >
+   <main>
+   <section class="section bg-light pb-0"  >
       <div class="container">
        
         <div class="row check-availabilty" id="next">
@@ -69,10 +70,10 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                       </div>
                     </div>
                     <div class="col-md-6 mb-3 mb-md-0">
-                      <label for="children" class="font-weight-bold text-black">Pax</label>
+                      <label for="pax" class="font-weight-bold text-black">Pax</label>
                       <div class="field-icon-wrap">
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="children" class="form-control">
+                        <select name="" id="pax" class="form-control">
                           <option value="">1</option>
                           <option value="">2</option>
                           <option value="">3</option>
@@ -83,7 +84,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3 align-self-end">
-                  <button type="submit" class="btn btn-primary btn-block text-white">Check Availabilty</button>
+                <button type="submit" class="btn btn-primary btn-block" style="color: #333;">Check Availability</button>
                 </div>
               </div>
             </form>
@@ -187,22 +188,20 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         </div>
         <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="100">
-
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/maison.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">March 15, 2023</span>
+              <span class="meta-post" style="color: #333;">March 15, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Maison Boulud</a></h2>
                 <p>Set to make its much anticipated debut in Singapore. Maison Boulud is situated along the waterfront promenade in our hotel. With its interior exuding timeless charm and elegance, indulge in quintessential French dishes that beautifully encapsulates the essence of French cuisine.</p>
               </div>
             </div>
-
           </div>
           <div class="col-lg-4 col-md-6 col-sm-6 col-12 post" data-aos="fade-up" data-aos-delay="200">
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/winedinner.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">March 20, 2023</span>
+              <span class="meta-post" style="color: #333;">March 20, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Wakuda Grace Wine Dinner</a></h2>
                 <p>Experience an exclusive evening with Head Winemaker Ayana Misawa as you savour an exquisite 5-course wine dinner paired with Grace wines from Yamanashi, Japan.</p>
               </div>
@@ -212,7 +211,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/afternoontea.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">29 March, 2023</span>
+              <span class="meta-post" style="color: #333;">29 March, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Renku Bar & Lounge: Afternoon Tea</a></h2>
                 <p>Indulge in seasonal blooms and British delicacies with decadent three-tiered afternoon tea sets. Each creation is a delicious symphony of refined flavors that will mesmerize your taste buds.</p>
               </div>
@@ -222,6 +221,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
       </div>
     </section>
     <!-- End of events -->
+</main>
 
   <!-- Start of footer -->
   <?php
