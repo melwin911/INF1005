@@ -26,7 +26,7 @@ $email = $_SESSION['email'];
     include $headSection;
     renderNavbar('Home');
     ?>
-
+<main>
     <section class="section bg-light pb-0"  >
       <div class="container">
        
@@ -216,6 +216,7 @@ $email = $_SESSION['email'];
         </div>
       </div>
     </section>
+    </main>
     <!-- End of events -->
 
   <!-- Start of footer -->
