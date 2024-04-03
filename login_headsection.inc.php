@@ -9,7 +9,12 @@ $lname = isset($_SESSION['lname']) ? $_SESSION['lname'] : '';
 $loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : false;
 $errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 $email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
-$password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
+
+// Redirect immediately to 'view_bookings.php' if logged in as admin
+if ($loggedin && $email == 'admin@admin.com' && $password == 'admin') {
+    header('Location: view_bookings.php');
+    exit;
+}
 
 ?>
 
@@ -19,13 +24,9 @@ $password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
             <div class="row site-hero-inner justify-content-center align-items-center">
                 <div class="col-md-10 text-center" data-aos="fade">
                     <?php if ($loggedin == true): // check if login was successful ?>
-                        <?php if ($email == 'admin@admin.com' && $password == 'admin'): ?>
-                            <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
-                            <button class="btn btn-primary"><a href="view_bookings.php" style="text-decoration: none; color: black;">View Bookings</a></button>
-                        <?php else: ?>
-                            <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
-                            <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: black;">Return to Home</a></button>
-                        <?php endif; ?>
+                        <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
+                        <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: black;">Return to Home</a></button>
+
                     <?php elseif (!empty($errorMsg)): ?>
                         <h1 class="heading mb-3">Oops!</h1>
                         <?php foreach ($errorMsg as $message): ?>

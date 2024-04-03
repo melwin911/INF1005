@@ -8,7 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Initialize variables
-$currentEmail = $_SESSION['user_email']; // User's current email from the session
+$currentEmail = $_SESSION['email']; // User's current email from the session
 $currentPasswordProvided = $_POST["current_pwd"];
 $firstName = $lastName = $newEmail = $gender = $password = $confirmPassword = $errorMsg = "";
 $success = true;
@@ -123,7 +123,7 @@ function updateProfile($currentEmail, $newEmail, $firstName, $lastName, $gender,
         $success = false;
     } else {
         $_SESSION['update_success'] = true; // Use this to show a success message on the profile page
-        $_SESSION['user_email'] = $newEmail; // Update the email in the session
+        $_SESSION['email'] = $newEmail; // Update the email in the session
         $_SESSION['fname'] = $firstName;
         $_SESSION['lname'] = $lastName;
     }

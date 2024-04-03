@@ -33,7 +33,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $errorMsg = "";
     $user = [];
     $success = true;
-    $email = $_SESSION['user_email'];
+    $memberId = $_SESSION['member_id'];
 
     // Create database connection using the existing config file
     $config = parse_ini_file('/var/www/private/db-config.ini');
@@ -54,8 +54,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $success = false;
         } else {
             // Use prepared statement to safely execute the query
-            $stmt = $conn->prepare("SELECT fname, lname, gender, email FROM hotel_members WHERE email = ?");
-            $stmt->bind_param("s", $email);
+            $stmt = $conn->prepare("SELECT fname, lname, gender, email FROM hotel_members WHERE member_id = ?");
+            $stmt->bind_param("s", $memberId);
             $stmt->execute();
             $result = $stmt->get_result();
     
