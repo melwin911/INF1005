@@ -38,18 +38,16 @@ $rememberme = $_POST['rememberme'];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     $result = authenticateUser($email, $password, $rememberme, $secretKey);
     $success = $result['success'];
+    $_SESSION['email'] = $email;
+    $_SESSION['password'] = $password;
+
+    // Process the result, which includes handling errors or no errors
+    $_SESSION['error'] = $errorMsg;
+    include "head.inc.php";
+    include "header.inc.php";
+    include "login_headsection.inc.php";
+    include "footer.inc.php";
     
-    // Check if the user is an admin
-    if ($success && $email == 'admin@admin.com' && $password == 'admin') {
-        header('Location: view_bookings.php');
-    } else {
-        // Process the result, which includes handling errors or no errors
-        $_SESSION['error'] = $errorMsg;
-        include "head.inc.php";
-        include "header.inc.php";
-        include "login_headsection.inc.php";
-        include "footer.inc.php";
-    }
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !$success) { // For validation and sanitisation failure
     // Display error message if vaidation or sanitisation failed
     $_SESSION['error'] = $errorMsg;

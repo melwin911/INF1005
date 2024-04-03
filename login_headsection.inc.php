@@ -8,6 +8,8 @@ $fname = isset($_SESSION['fname']) ? $_SESSION['fname'] : '';
 $lname = isset($_SESSION['lname']) ? $_SESSION['lname'] : '';
 $loggedin = isset($_SESSION['loggedin']) ? $_SESSION['loggedin'] : false;
 $errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+$email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
+$password = isset($_SESSION['password']) ? $_SESSION['password'] : '';
 
 ?>
 
@@ -17,9 +19,13 @@ $errorMsg = isset($_SESSION['error']) ? $_SESSION['error'] : '';
             <div class="row site-hero-inner justify-content-center align-items-center">
                 <div class="col-md-10 text-center" data-aos="fade">
                     <?php if ($loggedin == true): // check if login was successful ?>
-                        <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
-                        <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: black;">Return to Home</a></button>
-
+                        <?php if ($email == 'admin@admin.com' && $password == 'admin'): ?>
+                            <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
+                            <button class="btn btn-primary"><a href="view_bookings.php" style="text-decoration: none; color: black;">View Bookings</a></button>
+                        <?php else: ?>
+                            <h1 class="heading mb-3">Welcome, <?php echo htmlspecialchars($fname) . " " . htmlspecialchars($lname) . "!"; ?></h1>
+                            <button class="btn btn-primary"><a href="member_page.php" style="text-decoration: none; color: black;">Return to Home</a></button>
+                        <?php endif; ?>
                     <?php elseif (!empty($errorMsg)): ?>
                         <h1 class="heading mb-3">Oops!</h1>
                         <?php foreach ($errorMsg as $message): ?>
