@@ -1,8 +1,5 @@
 <?php
 session_start();
-require 'functions.php';
-$secretKey = $_ENV['SECRET_KEY'];
-
 // Default sections for non-member
 $headSection = "nonmember_head.inc.php";
 $navBar = "navbar.inc.php";
