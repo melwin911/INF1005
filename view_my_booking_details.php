@@ -64,6 +64,44 @@ if (!$config) {
     $stmt->close();
     $conn->close();
 }
+
+function hasSubmittedReview($booking_id)
+{
+    // Create database connection using the existing config file
+    $config = parse_ini_file('/var/www/private/db-config.ini');
+    if (!$config) {
+        $errorMsg = "Failed to read database config file.";
+        $success = false;
+    }
+
+    $conn = new mysqli(
+        $config['servername'],
+        $config['username'],
+        $config['password'],
+        $config['dbname']
+    );
+
+    // Check connection
+    if ($conn->connect_error) {
+        // Handle error if unable to connect to the database
+        $success = false;
+        return false;
+    }
+
+    // Prepare SQL statement to check if a review exists for the given booking ID
+    $stmt = $conn->prepare("SELECT COUNT(*) AS num_reviews FROM reviews WHERE booking_id = ?");
+    $stmt->bind_param("i", $booking_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    // Close prepared statement and database connection
+    $stmt->close();
+    $conn->close();
+
+    // Check if any review exists for the given booking ID
+    return $row['num_reviews'] > 0;
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -118,6 +156,32 @@ if (!$config) {
                             <h2>Cancellation Policy</h2>
                             <p><strong><b>Please email booking@fivestarhotel.com for any booking cancellations.</strong></b></p>
                         </section>
+                        <?php if (!hasSubmittedReview($booking['booking_id'])) : ?>
+                            <section class="submit-review">
+                                <h2>Submit a Review</h2>
+                                <form action="submit_review.php" method="POST">
+                                    <input type="hidden" name="room_type_id" value="<?= $booking['room_type_id'] ?>">
+                                    <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
+                                    <div class="form-group">
+                                        <label for="rating">Rating:</label>
+                                        <select class="form-control" id="rating" name="rating">
+                                            <option value="1">1 Star</option>
+                                            <option value="2">2 Stars</option>
+                                            <option value="3">3 Stars</option>
+                                            <option value="4">4 Stars</option>
+                                            <option value="5">5 Stars</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="review_text">Review:</label>
+                                        <textarea class="form-control" id="review_text" name="review_text" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                                </form>
+                            </section>
+                        <?php else : ?>
+                            <h3><b>You have already submitted a review for this booking.</b></h3>
+                        <?php endif; ?>
                     </div><br>
                 <?php endforeach; ?>
             <?php else : ?>

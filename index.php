@@ -126,6 +126,7 @@ $headSection = "nonmember_head.inc.php";
           $errorMsg = "";
           $rooms = [];
           $availabilityData = [];
+          $reviewsData = [];
           $success = true;
           $room_listing_count = 0;
           
@@ -160,6 +161,17 @@ $headSection = "nonmember_head.inc.php";
                       $errorMsg = "No rooms found.";
                       $success = false;
                   }
+
+            // Get average rating and review count for each room
+            $reviewSql = "SELECT room_type_id, AVG(rating) AS average_rating, COUNT(*) AS review_count FROM reviews GROUP BY room_type_id";
+            $reviewResult = $conn->query($reviewSql);
+
+            if ($reviewResult && $reviewResult->num_rows > 0) {
+              // Fetch all review data
+              while ($reviewRow = $reviewResult->fetch_assoc()) {
+                $reviewsData[$reviewRow['room_type_id']] = $reviewRow;
+              }
+            }
               }
               $conn->close();
           }
@@ -173,6 +185,27 @@ $headSection = "nonmember_head.inc.php";
               </figure>
               <div class="p-3 text-center room-info">
                 <h2><?php echo htmlspecialchars($room['room_type_name']); ?></h2>
+                <?php if (isset($reviewsData[$room['room_type_id']])) : ?>
+                <div class="room-rating">
+                  <span class="average-rating">
+                    <?php
+                    // Display solid stars for the whole number part of the rating
+                    for ($i = 0; $i < floor($reviewsData[$room['room_type_id']]['average_rating']); $i++) {
+                      echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                    }
+                    // If there's a half, display a half star
+                    if ($reviewsData[$room['room_type_id']]['average_rating'] - floor($reviewsData[$room['room_type_id']]['average_rating']) >= 0.5) {
+                      echo '<i class="fa fa-star-half-alt" aria-hidden="true"></i>';
+                    }
+                    ?>
+                  </span>
+                  <span class="review-count">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
+                </div>
+              <?php else : ?>
+                <div class="room-rating">
+                  <span class="no-reviews">No reviews yet</span>
+                </div>
+              <?php endif; ?>
                 <span class="text-uppercase letter-spacing-1" style="color: #333;">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
               </div>
             </a>
