@@ -1,15 +1,19 @@
 <?php
 session_start();
-// Check if the user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    // Keep the user on login.php if they are not logged in
-    // This is the place to stay if not logged in, so nothing happens here.
-    $headSection = "nonmember_head.inc.php"; // Default to non-member head
-} else {
-    // Redirect to member_page.php if the user is already logged in
-    header('Location: member_page.php');
-    exit;
+$_SESSION['loggedin'] = false;
+require 'functions.php'; // Assumes this file contains the rememberMe function among others.
+$secretKey = $_ENV['SECRET_KEY']; // Ensure the secret key is defined in your environment variables.
+
+if (isset($_COOKIE['rememberme'])) {
+    $validationResult = rememberMe($secretKey);
+    if ($validationResult) {
+        header('Location: member_page.php');
+        exit;
+    }
 }
+
+$headSection = "nonmember_head.inc.php";
+
 ?>
 
 <!DOCTYPE HTML>

@@ -1,7 +1,7 @@
 <?php
 function renderNavbar($currentPage) {
     $pages = [
-        'Home' => 'index.php',
+        'Home' => 'member_page.php',
         'Rooms' => 'rooms.php',
         'About' => 'about.php',
         'Booking Cart' => 'view_cart.php',

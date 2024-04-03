@@ -4,15 +4,6 @@ session_start();
 $headSection = "nonmember_head.inc.php"; // Default to non-member head
 $navBar = "navbar.inc.php"; // Default to non-member navbar
 
-// Check if the user is logged in
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    // Keep the user on login.php if they are not logged in
-    // This is the place to stay if not logged in, so nothing happens here.
-} else {
-    // Redirect to member_page.php if the user is already logged in
-    header('Location: member_page.php');
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -31,27 +22,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     include $headSection;
     renderNavbar('Login');
     ?>
-
-    <!-- <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
-      <div class="container">
-        <div class="row site-hero-inner justify-content-center align-items-center">
-          <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">Login</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
-              <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
-              <li>&bullet;</li>
-              <li><a href="about.php">About</a></li>
-              <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
-              <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section> -->
 
     <main class="container" id="registration"> 
         <h1>Member Login</h1> 

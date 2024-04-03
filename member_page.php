@@ -4,12 +4,13 @@ session_start();
 $headSection = "member_head.inc.php";
 
 // Check if the user is not logged in
-if (!isset($_SESSION['loggedin'])) {
+if (!isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === false) {
     // Redirect to index.php if the user is not logged in
     header('Location: index.php');
     exit;
 }
 $email = $_SESSION['email'];
+
 ?>
 
 <!DOCTYPE HTML>

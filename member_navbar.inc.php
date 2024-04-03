@@ -12,7 +12,7 @@
                   <div class="row full-height align-items-center">
                     <div class="col-md-6 mx-auto">
                       <ul class="list-unstyled menu">
-                        <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'member_page.php' ? 'active' : ''); ?>"><a href="index.php">Home</a></li>
+                        <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'member_page.php' ? 'active' : ''); ?>"><a href="member_page.php">Home</a></li>
                         <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'rooms.php' ? 'active' : ''); ?>"><a href="rooms.php">Rooms</a></li>
                         <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''); ?>"><a href="about.php">About</a></li>
                         <li class="<?php echo (basename($_SERVER['PHP_SELF']) == 'view_cart.php' ? 'active' : ''); ?>"><a href="view_cart.php">Booking Cart</a></li>

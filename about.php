@@ -1,15 +1,18 @@
 <?php
 session_start();
+require 'functions.php';
+$secretKey = $_ENV['SECRET_KEY'];
 
-$headSection = "nonmember_head.inc.php"; // Default to non-member head
-$navBar = "navbar.inc.php"; // Default to non-member navbar
+// Default sections for non-member
+$headSection = "nonmember_head.inc.php";
+$navBar = "navbar.inc.php";
 
-// Check if the authentication cookie exists
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    // Include the member head section if the auth cookie exists
     $headSection = "member_head.inc.php";
     $navBar = "member_navbar.inc.php";
 }
+
+
 ?>
 
 <!DOCTYPE HTML>
