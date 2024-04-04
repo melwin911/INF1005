@@ -351,9 +351,15 @@ textarea.form-control {
     transform: rotate(-135deg); }
 
     #google_translate_element {
-      margin-right: 100px; /* Adjust as needed for spacing */
+      margin-right: 100px;
+      margin-left: 100px; /* Adjust as needed for spacing */
   }
   
+  .translate-fixed {
+    position: fixed;
+    right: 10px; /* Adjust this value as needed */
+    top: 8px; /* Adjust this value as needed */
+}
   /* Optional styles for the Google Translate element */
   .goog-te-gadget-simple {
       background-color: transparent;

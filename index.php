@@ -23,10 +23,11 @@ $headSection = "nonmember_head.inc.php";
     ?>
 
   <body>
+
   <?php
     include "header.inc.php";
     ?>
-     
+
             
             <!-- Start of Navbar  -->
             <?php
@@ -34,10 +35,11 @@ $headSection = "nonmember_head.inc.php";
             include $headSection;
             renderNavbar('Home');
             ?>
+           
             <!-- End of navbar  -->
 
    <main>
-   <section class="section bg-light pb-0"  >
+   <section class="section bg-light pb-0">
       <div class="container">
        
         <div class="row check-availabilty" id="next">
