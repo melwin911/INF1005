@@ -38,6 +38,7 @@ $rememberme = $_POST['rememberme'];
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $success) {
     $result = authenticateUser($email, $password, $rememberme, $secretKey);
     $success = $result['success'];
+    $errorMsg[] = $result['errorMsg'];
     $_SESSION['email'] = $email;
     $_SESSION['password'] = $password;
 

@@ -17,7 +17,7 @@ if (empty($_POST["email"])) {
         $errorMsg[] = "Invalid email format.";
         $success = false;
     } elseif (emailExists($email)) {// Check if email already exists in the database
-        $errorMsg[] = "Email already exists.";
+        $errorMsg[] = "Email already registered.";
         $success = false;
     }
 }
@@ -53,7 +53,7 @@ if (empty($_POST["pwd_confirm"])) {
 } else {
     $confirmPassword = $_POST["pwd_confirm"];
     if ($confirmPassword !== $password) {
-        $errorMsg[] = "Passwords do not match.";
+        $errorMsg[] = "Password does not match.";
         $success = false;
     }
 }
@@ -66,7 +66,10 @@ if ($success) {
     $_SESSION['lname'] = $lastName;   // Assuming $lastName is set during signup
     // Proceed to hash the password and save the member to the database
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword);
+    $result = saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword);
+    $errorMsg[] = $result['errorMsg'];
+    $_SESSION['error'] = $errorMsg;
+
 } else {
     // If signup failed, set a session variable for error message
     $_SESSION['signup_success'] = false;

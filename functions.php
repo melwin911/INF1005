@@ -15,19 +15,19 @@ use \UnexpectedValueException; // Import the UnexpectedValueException class to h
 function authenticateUser($email, $password, $rememberme, $secretKey)
 {
     $success = true;
-    $errorMsg = [];
+    $errorMsg = "";
 
     // Create database connection.
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
-        $errorMsg[] = "Failed to read database config file.";
+        $errorMsg = "Failed to read database config file.";
         $success = false;
     } else {
         $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
         // Check connection
         if ($conn->connect_error) {
-            $errorMsg[] = "Connection failed: " . $conn->connect_error;
+            $errorMsg = "Connection failed: " . $conn->connect_error;
             $success = false;
         } else {
             // Prepare the statement
@@ -48,17 +48,18 @@ function authenticateUser($email, $password, $rememberme, $secretKey)
                     $_SESSION['email'] = $email;
                     $_SESSION['member_id'] = $row["member_id"];
                     $result = onLogin($email, $rememberme, $secretKey);
-                    if ($result == false) {
+                    if ($result) {
+                        $errorMsg = $result;
                         $success = false;
                     }
                 } else {
                     // Password does not match
-                    $errorMsg[] = "Email not found or password doesn't match.";
+                    $errorMsg = "Email not found or password doesn't match.";
                     $success = false;
                 }
             } else {
                 // email not found
-                $errorMsg[] = "Email not found or password doesn't match.";
+                $errorMsg = "Email not found or password doesn't match.";
                 $success = false;
             }
             $stmt->close();
@@ -67,18 +68,18 @@ function authenticateUser($email, $password, $rememberme, $secretKey)
     }
 
     // Return the success status
-    return ['success' => $success];
+    return ['success' => $success, 'errorMsg' => $errorMsg];
 }
 
 // Helper function to store token for users who click on remember me option
 function storeTokenForUser($email, $token)
 {
     $success = true;
-    $errorMsg = [];
+    $errorMsg = "";
     // Create database connection
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
-        $errorMsg[] = "Failed to read database config file.";
+        $errorMsg = "Failed to read database config file.";
         $success = false;
     } else {
         $conn = new mysqli(
@@ -89,20 +90,20 @@ function storeTokenForUser($email, $token)
         );
         // Check connection
         if ($conn->connect_error) {
-            $errorMsg[] = "Connection failed: " . $conn->connect_error;
+            $errorMsg = "Connection failed: " . $conn->connect_error;
             $success = false;
         } else {
             // Prepare the statement
             $stmt = $conn->prepare("UPDATE hotel_members SET token = ? WHERE email = ?");
             if (!$stmt) {
-                $errorMsg[] = "Failed to prepare SQL statement: " . $conn->error;
+                $errorMsg = "Failed to prepare SQL statement: " . $conn->error;
                 $success = false;
                 $conn->close();
             } else {
                 // Bind parameters and execute the statement
                 $stmt->bind_param("ss", $token, $email);
                 if (!$stmt->execute()) {
-                    $errorMsg[] = "Failed to execute SQL statement: " . $stmt->error;
+                    $errorMsg = "Failed to execute SQL statement: " . $stmt->error;
                     $success = false;
                 }
             }
@@ -112,7 +113,7 @@ function storeTokenForUser($email, $token)
         $conn->close();
     }
     // Return the success status
-    return ['success' => $success];
+    return ['success' => $success, 'errorMsg' => $errorMsg];
 }
 
 function onLogin($email, $rememberme, $secretKey) {
@@ -131,8 +132,9 @@ function onLogin($email, $rememberme, $secretKey) {
             $jwt = JWT::encode($payload, $secretKey, 'HS256');
             $result = storeTokenForUser($email, $jwt); // Store JWT in your database against the user for verification next time they log in
             $success = $result['success'];
+            $errorMsg = $result['errorMsg'];
             if (!$success) {
-                return false;
+                return $errorMsg;
             } else {
                 // Prepare the cookie value
                 $cookie = $email . ':' . $jwt;
@@ -191,11 +193,13 @@ function rememberMe($secretKey) {
         } else {
             if ($jwt == $jwtFromDatabase) { // Compare the JWT from the cookie with the one from the database
                 try {
-                    JWT::decode($jwt, new Key($secretKey, 'HS256')); // Decode the JWT
+                    $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256')); // Decode the JWT
                     // If decoding is successful
-                    $_SESSION['loggedin'] = true;
-                    $_SESSION['email'] = $email;
-                    return true;
+                    if ($decoded) {
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['email'] = $email;
+                        return true;
+                    }
                     
                 } catch (ExpiredException $e) { // Handle expired token
                 } catch (SignatureInvalidException $e) { // Handle invalid signature - potential tampering
@@ -270,14 +274,13 @@ function sanitize_input($data)
 */
 function saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword)
 {
-    $errorMsg = [];
-    $success = true;
+    $errorMsg = "";
     $_SESSION['signup_success'] = true;
     // Create database connection.
     $config = parse_ini_file('/var/www/private/db-config.ini');
     if (!$config) {
         $_SESSION['signup_success'] = false;
-        $errorMsg[] = "Failed to read database config file.";
+        $errorMsg = "Failed to read database config file.";
     } else {
         $conn = new mysqli(
             $config['servername'],
@@ -288,7 +291,7 @@ function saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword)
         // Check connection
         if ($conn->connect_error) {
             $_SESSION['signup_success'] = false;
-            $errorMsg[] = "Connection failed: " . $conn->connect_error;
+            $errorMsg = "Connection failed: " . $conn->connect_error;
         }
         // Check if the email already exists
         $stmt = $conn->prepare("SELECT email FROM hotel_members WHERE email = ?");
@@ -298,7 +301,7 @@ function saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword)
         if ($result->num_rows > 0) {
             $_SESSION['signup_success'] = false;
             // Email already exists
-            $errorMsg[] = "This email is already registered.<br>";
+            $errorMsg = "This email is already registered.<br>";
         } else {
             // Prepare the statement:
             $stmt = $conn->prepare("INSERT INTO hotel_members
@@ -306,13 +309,14 @@ function saveMemberToDB($firstName, $lastName, $gender, $email, $hashedPassword)
             // Bind & execute the query statement:
             $stmt->bind_param("sssss", $firstName, $lastName, $gender, $email, $hashedPassword);
             if (!$stmt->execute()) {
-                $errorMsg[] = "Execute failed: (" . $stmt->errno . ") " .$stmt->error;
+                $errorMsg = "Execute failed: (" . $stmt->errno . ") " .$stmt->error;
                 $_SESSION['signup_success'] = false;
             }
             $stmt->close();
         }
         $conn->close();
     }
+    return ['errorMsg' => $errorMsg];
 }
 
 function emailExists($email) {

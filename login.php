@@ -9,7 +9,7 @@ $navBar = "navbar.inc.php"; // Default to non-member navbar
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Test Hotel</title>
+    <title>5 Hotel</title>
     <?php
     include "head.inc.php";
     ?>
