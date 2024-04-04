@@ -191,15 +191,15 @@ $headSection = "nonmember_head.inc.php";
                     <?php
                     // Display solid stars for the whole number part of the rating
                     for ($i = 0; $i < floor($reviewsData[$room['room_type_id']]['average_rating']); $i++) {
-                      echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star" aria-hidden="true" style="color: #333"></i>';
                     }
                     // If there's a half, display a half star
                     if ($reviewsData[$room['room_type_id']]['average_rating'] - floor($reviewsData[$room['room_type_id']]['average_rating']) >= 0.5) {
-                      echo '<i class="fa fa-star-half-alt" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star-half-alt" aria-hidden="true" style="color: #333"></i>';
                     }
                     ?>
                   </span>
-                  <span class="review-count">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
+                  <span class="review-count" style="color: #333">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
                 </div>
               <?php else : ?>
                 <div class="room-rating">
