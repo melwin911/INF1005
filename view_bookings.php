@@ -19,12 +19,15 @@ $email = $_SESSION['email'];
     ?>
 
   <body>
+
+
   <?php
     include "header.inc.php";
     include "admin_navbar.inc.php";
     include $headSection;
     renderNavbar('View Bookings');
     ?>
+
 
 <?php
 // Create database connection using the existing config file
@@ -80,7 +83,9 @@ $sql = "SELECT * FROM bookings";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
+    
     // Display data in a table format
+    echo "<main>";
     echo "<h2 style='padding-top: 100px; padding-left: 100px; padding-right: 100px; margin-left: 100px;'>Total Bookings</h2>";
     echo "<table border='1' style='margin-top: 50px; margin-bottom: 50px; padding-left: 100px; padding-right: 100px; margin-left: 100px;'>";
     echo "<tr>
@@ -122,6 +127,7 @@ if ($result->num_rows > 0) {
         echo "</tr>";
     }
     echo "</table>";
+    echo "</main>";
 } else {
     echo "No bookings found";
 }
