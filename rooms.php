@@ -269,7 +269,11 @@ include "head.inc.php";
                 </div>
                 <div class="modal-footer" style="border-top: none;">
                   <span class="display-4 text-primary" style="font-size: 2.5rem;">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-1">/ per night</span>
-                  <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-white">Book Now</a></p>
+                  <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
+                    <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-white">Book Now</a></p>
+                  <?php else : ?>
+                    <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
@@ -300,7 +304,11 @@ include "head.inc.php";
               <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
               <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name']) ?></h2>
               <p><?php echo htmlspecialchars($room['room_size']) ?> | <?php echo htmlspecialchars($room['room_features']) ?></p>
-              <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+              <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
+                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+              <?php else : ?>
+                <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+              <?php endif; ?>
             </div>
           </div>
         <?php }
@@ -311,7 +319,11 @@ include "head.inc.php";
               <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
               <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name']) ?></h2>
               <p><?php echo htmlspecialchars($room['room_size']) ?> | <?php echo htmlspecialchars($room['room_features']) ?> | Club access</p>
-              <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+              <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
+                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+              <?php else : ?>
+                <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+              <?php endif; ?>
             </div>
           </div>
       <?php }
@@ -330,6 +342,11 @@ include "head.inc.php";
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/jquery.timepicker.min.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('[data-toggle="tooltip"]').tooltip(); // Initialize Bootstrap tooltips
+    });
+  </script>
 
 </body>
 

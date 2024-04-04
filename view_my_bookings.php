@@ -118,13 +118,13 @@ if (!$config) {
                         <tbody>
                             <?php foreach ($orders as $order) : ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($order['order_id']) ?></td>
-                                    <td><?= htmlspecialchars($order['created_at']) ?></td>
-                                    <td><?= htmlspecialchars($order['check_in_date']) ?></td>
-                                    <td><?= htmlspecialchars($order['check_out_date']) ?></td>
-                                    <td><?= htmlspecialchars($order['total_rooms']) ?> rooms</td>
-                                    <td><?= htmlspecialchars($order['total_guests']) ?> guests</td>
-                                    <td><a href="view_my_booking_details.php?order_id=<?= urlencode($order['order_id']) ?>" class="btn btn-link" style="color: black; text-decoration: underline; padding: 0; margin: 0;">View Details</a></td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['order_id']) ?></td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['created_at']) ?></td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['check_in_date']) ?></td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['check_out_date']) ?></td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['total_rooms']) ?> rooms</td>
+                                    <td style="color: #595d62;"><?= htmlspecialchars($order['total_guests']) ?> guests</td>
+                                    <td style="color: #595d62;"><a href="view_my_booking_details.php?order_id=<?= urlencode($order['order_id']) ?>" class="btn btn-link" style="color: black; text-decoration: underline; padding: 0; margin: 0;">View Details</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

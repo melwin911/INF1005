@@ -88,16 +88,16 @@ if (!$config) {
                 $totalPriceForAllItems += $totalPrice; // Add the item's total price to the cumulative total
                 ?>
             <tr>
-                <td><input type="checkbox" name="selected_rooms[]" value="<?= htmlspecialchars($item['item_id']) ?>" data-price="<?= $totalPrice ?>" onchange="updateTotal()"></td>
+                <td><input type="checkbox" name="selected_rooms[]" value="<?= htmlspecialchars($item['item_id']) ?>" data-price="<?= $totalPrice ?>" onchange="updateTotal()" aria-label="Select Room to Edit"></td>
                 <td><img src="images/rooms/<?php echo htmlspecialchars($item['image_path'])?>" alt="Room image" class="img-fluid mb-3"></td>
-                <td><?= htmlspecialchars($item['room_type']) ?></td>
-                <td>$<?=number_format($totalPrice, 2)?></td>
-                <td><?= htmlspecialchars($item['check_in_date']) ?></td>
-                <td><?= htmlspecialchars($item['check_out_date']) ?></td>
-                <td><?= htmlspecialchars($item['num_rooms']) ?></td>
-                <td><?= htmlspecialchars($item['num_guests']) ?></td>
-                <td><?= htmlspecialchars($item['guest_name']) ?></td>
-                <td><?= htmlspecialchars($item['guest_email']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['room_type']) ?></td>
+                <td style="color: #595d62;">$<?=number_format($totalPrice, 2)?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['check_in_date']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['check_out_date']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['num_rooms']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['num_guests']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['guest_name']) ?></td>
+                <td style="color: #595d62;"><?= htmlspecialchars($item['guest_email']) ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
@@ -105,9 +105,9 @@ if (!$config) {
     </div>
         <div class="row justify-content-end">
         <div class="col-auto">
-            <h4>
+            <h3>
         <div id="dynamicTotalPrice" class="text-right mt-3">Total: $0.00</div>
-        </h4>
+        </h3>
         </div>
     </div>
     <br>

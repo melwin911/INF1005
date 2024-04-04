@@ -108,6 +108,7 @@ if (!$config) {
     ?>
 
     <br>
+    <main>
         <div class="container">
             <?php if (!empty($roomDetails)) : ?>
                 <div class="back-button">
@@ -184,6 +185,7 @@ if (!$config) {
                 <p>Booking details not found.</p>
             <?php endif; ?>
         </div>
+        </main>
 
     <?php include "footer.inc.php"; ?>
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>

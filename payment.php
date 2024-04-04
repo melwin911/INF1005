@@ -38,6 +38,7 @@ $totalPrice = (float)$totalPrice; // Cast to float to ensure correct data type f
     renderNavbar('Booking Cart');
     ?>
 
+<main>
     <div class="container mt-4">
         <?php
         // Check if an error message exists in the URL query parameters
@@ -109,6 +110,7 @@ $totalPrice = (float)$totalPrice; // Cast to float to ensure correct data type f
             <button type="submit" class="btn btn-primary">Make Payment</button>
         </form>
     </div><br>
+    </main>
 
     <?php include "footer.inc.php"; ?>
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>

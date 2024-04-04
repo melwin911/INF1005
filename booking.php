@@ -97,6 +97,7 @@ if (!$config) {
     ?>
 
     <br>
+    <main>
     <div class="container">
         <?php if (!empty($roomDetails)) : ?>
             <div class="back-button">
@@ -162,7 +163,7 @@ if (!$config) {
 
                 <div class="form-group">
                     <label for="guest_phone">Guest Phone Number:</label>
-                    <input type="tel" id="guest_phone" name="guest_phone" class="form-control" placeholder="+65 91234567">
+                    <input type="tel" id="guest_phone" name="guest_phone" class="form-control" placeholder="+65 91234567" required>
                 </div>
 
                 <!-- Total Price Display -->
@@ -178,6 +179,7 @@ if (!$config) {
             <p>Room details not found.</p>
         <?php endif; ?>
     </div>
+    </main>
 
     <?php include "footer.inc.php"; ?>
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>

@@ -87,6 +87,7 @@ include "head.inc.php";
     renderNavbar('Rooms');
     ?>
 
+    <main>
     <div class="container mt-5">
         <div class="back-button">
             <button onclick="goBack()" class="btn btn-primary">
@@ -114,15 +115,15 @@ include "head.inc.php";
                 <div class="row">
                     <?php foreach ($reviews as $review) : ?>
                         <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">Rating: <?php echo str_repeat('★', intval($review['rating'])); ?></h5>
-                                    <p class="card-text"><?php echo htmlspecialchars($review['review_text']); ?></p>
+                            <div class="card h-100" style="color: #495057;">
+                                <div class="card-body" style="color: #495057;">
+                                    <h2 class="card-title" style="color: #495057;">Rating: <?php echo str_repeat('★', intval($review['rating'])); ?></h2>
+                                    <p class="card-text" style="color: #495057;"><?php echo htmlspecialchars($review['review_text']); ?></p>
                                 </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">Posted on: <?php echo date('F j, Y', strtotime(htmlspecialchars($review['created_at']))); ?></small>
+                                <div class="card-footer" style="background-color: #f7f7f7; color: #495057;">
+                                    <small class="text-muted" style="color: #495057 !important;">Posted on: <?php echo date('F j, Y', strtotime(htmlspecialchars($review['created_at']))); ?></small>
                                     <br>
-                                    <small class="text-muted">By: <?php echo htmlspecialchars($review['member_first_name'] . " " . $review['member_last_name']); ?></small>
+                                    <small class="text-muted" style="color: #495057 !important;">By: <?php echo htmlspecialchars($review['member_first_name'] . " " . $review['member_last_name']); ?></small>
                                 </div>
                             </div>
                         </div>
@@ -131,6 +132,7 @@ include "head.inc.php";
             <?php endif; ?>
         </div>
     </div>
+    </main>
 
     <!-- Start of footer -->
     <?php

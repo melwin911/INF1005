@@ -1357,3 +1357,11 @@ textarea.form-control {
 .fw-bold {
   font-weight: bold;
 }
+
+td {
+  color: #595d62; /* New darker foreground color */
+}
+
+tr {
+  color: #595d62; /* New darker foreground color */
+}
