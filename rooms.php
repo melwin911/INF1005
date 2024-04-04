@@ -28,6 +28,7 @@ include "head.inc.php";
   renderNavbar('Rooms');
   ?>
 
+<main>
   <section class="section bg-light pb-0">
     <div class="container">
 
@@ -56,7 +57,7 @@ include "head.inc.php";
                     <label for="adults" class="font-weight-bold text-black">No. of Rooms</label>
                     <div class="field-icon-wrap">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                      <select name="" id="adults" class="form-control">
+                      <select name="" id="adults" class="form-control" style="color: #333;">
                         <option value="">1</option>
                         <option value="">2</option>
                         <option value="">3</option>
@@ -68,7 +69,7 @@ include "head.inc.php";
                     <label for="children" class="font-weight-bold text-black">Pax</label>
                     <div class="field-icon-wrap">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                      <select name="" id="children" class="form-control">
+                      <select name="" id="children" class="form-control" style="color: #333;">
                         <option value="">1</option>
                         <option value="">2</option>
                         <option value="">3</option>
@@ -79,7 +80,7 @@ include "head.inc.php";
                 </div>
               </div>
               <div class="col-md-6 col-lg-3 align-self-end">
-                <button type="submit" class="btn btn-primary btn-block text-white">Check Availabilty</button>
+                <button type="submit" class="btn btn-primary btn-block" style="color: #333;">Check Availabilty</button>
               </div>
             </div>
           </form>
@@ -203,27 +204,27 @@ include "head.inc.php";
                     <?php
                     // Display solid stars for the whole number part of the rating
                     for ($i = 0; $i < floor($reviewsData[$room['room_type_id']]['average_rating']); $i++) {
-                      echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star" aria-hidden="true" style="color: #333;"></i>';
                     }
                     // If there's a half, display a half star
                     if ($reviewsData[$room['room_type_id']]['average_rating'] - floor($reviewsData[$room['room_type_id']]['average_rating']) >= 0.5) {
-                      echo '<i class="fa fa-star-half-alt" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star-half-alt" aria-hidden="true" style="color: #333;"></i>';
                     }
                     ?>
                   </span>
-                  <span class="review-count">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
+                  <span class="review-count" style="color: #333;">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
                 </div>
               <?php else : ?>
                 <div class="room-rating">
-                  <span class="no-reviews">No reviews yet</span>
+                  <span class="no-reviews" style="color: #333;">No reviews yet</span>
                 </div>
               <?php endif; ?>
-              <span class="text-uppercase letter-spacing-1">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
+              <span class="text-uppercase letter-spacing-1" style="color: #333;">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
             </div>
           </a>
         </div>
         <div>
-          <div class="modal fade room_page_<?php echo htmlspecialchars($room['room_type_id']) ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal fade room_page_<?php echo htmlspecialchars($room['room_type_id']) ?>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-label="Room Details" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
               <div class="modal-content">
                 <div class="modal-header" style="border-bottom: none;">
@@ -241,38 +242,38 @@ include "head.inc.php";
                           <?php
                           // Display solid stars for the whole number part of the rating
                           for ($i = 0; $i < floor($reviewsData[$room['room_type_id']]['average_rating']); $i++) {
-                            echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                            echo '<i class="fa fa-star" aria-hidden="true" style="color: #333;"></i>';
                           }
                           // If there's a half, display a half star
                           if ($reviewsData[$room['room_type_id']]['average_rating'] - floor($reviewsData[$room['room_type_id']]['average_rating']) >= 0.5) {
-                            echo '<i class="fa fa-star-half-alt" aria-hidden="true"></i>';
+                            echo '<i class="fa fa-star-half-alt" aria-hidden="true" style="color: #333;"></i>';
                           }
                           ?>
                         </span>
-                        <span class="review-count">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
+                        <span class="review-count" style="color: #333;">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
                       </div>
                     </a>
                   <?php else : ?>
                     <div class="room-rating">
-                      <span class="no-reviews">No reviews yet</span>
+                      <span class="no-reviews" style="color: #333;">No reviews yet</span>
                     </div>
                   <?php endif; ?>
                   <p><?php echo htmlspecialchars($room['room_description']) ?> pax</p>
-                  <img src="images/person-fill.svg" height="24px"><span class="fw-bold ps-2">Number of Guests</span>
+                  <img src="images/person-fill.svg" alt="Person" height="24px"><span class="fw-bold ps-2">Number of Guests</span>
                   <p class="ps-2"><?php echo htmlspecialchars($room['room_pax']) ?></p>
-                  <img src="images/bed_icon.png" height="24px"><span class="fw-bold ps-2">Number of Beds</span>
+                  <img src="images/bed_icon.png" alt="Bed" height="24px"><span class="fw-bold ps-2">Number of Beds</span>
                   <p class="ps-2"><?php echo htmlspecialchars($room['room_bed']) ?></p>
-                  <img src="images/arrows-angle-expand.svg" height="20px"><span class="fw-bold ps-3">Room Size</span>
+                  <img src="images/arrows-angle-expand.svg" alt="Size" height="20px"><span class="fw-bold ps-3">Room Size</span>
                   <p class="ps-2"><?php echo htmlspecialchars($room['room_size']) ?></p>
-                  <img src="images/lamp-fill.svg" height="24px"><span class="fw-bold ps-2">Room Amenitites</span>
+                  <img src="images/lamp-fill.svg" alt="Lamp" height="24px"><span class="fw-bold ps-2">Room Amenitites</span>
                   <p class="ps-2"><?php echo htmlspecialchars($room['room_amenities']) ?></p>
                 </div>
                 <div class="modal-footer" style="border-top: none;">
-                  <span class="display-4 text-primary" style="font-size: 2.5rem;">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-1">/ per night</span>
+                  <span class="display-4 text-primary" style="color: #000000 !important; background-color: #ffffff !important; font-size: 2.5rem;">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-1">/ per night</span>
                   <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                    <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-white">Book Now</a></p>
+                    <p><a href="booking.php?room_type_id=<?php echo $room['room_type_id']; ?>" class="btn btn-primary text-black" style="color: #333 !important;">Book Now</a></p>
                   <?php else : ?>
-                    <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+                    <p><button class="btn btn-primary text-black" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms." style="color: #333 !important;">Book Now</button></p>
                   <?php endif; ?>
                 </div>
               </div>
@@ -299,30 +300,30 @@ include "head.inc.php";
       <?php foreach ($rooms as $room) :
         if ($room['room_type_id'] == 11) { ?>
           <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="100">
-            <a href="#" class="image d-block bg-image-2" style="background-image: url('images/img_3.jpg');"></a>
+            <a href="/rooms.php" aria-label="First Room Image" class="image d-block bg-image-2" style="background-image: url('images/img_3.jpg');"></a>
             <div class="text">
-              <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-              <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name']) ?></h2>
+              <span class="d-block mb-4"><span class="display-4 text-primary" style="color: #000000 !important; background-color: #ffffff !important;">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+              <h2 class="mb-4" aria-label="Room Type"><?php echo htmlspecialchars($room['room_name']) ?></h2>
               <p><?php echo htmlspecialchars($room['room_size']) ?> | <?php echo htmlspecialchars($room['room_features']) ?></p>
               <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-black" style="color: #333 !important;">Book Now</a></p>
               <?php else : ?>
-                <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+                <p><button class="btn btn-primary text-black" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms." style="color: #333 !important;">Book Now</button></p>
               <?php endif; ?>
             </div>
           </div>
         <?php }
         if ($room['room_type_id'] == 17) { ?>
           <div class="site-block-half d-block d-lg-flex bg-white" data-aos="fade" data-aos-delay="200">
-            <a href="#" class="image d-block bg-image-2 order-2" style="background-image: url('images/img_4.jpg');"></a>
+            <a href="/rooms.php" aria-label="Second Room Image" class="image d-block bg-image-2 order-2" style="background-image: url('images/img_4.jpg');"></a>
             <div class="text order-1">
-              <span class="d-block mb-4"><span class="display-4 text-primary">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
-              <h2 class="mb-4"><?php echo htmlspecialchars($room['room_name']) ?></h2>
+              <span class="d-block mb-4"><span class="display-4 text-primary" style="color: #000000 !important; background-color: #ffffff !important;">$<?php echo htmlspecialchars($room['room_price_sgd']) ?></span> <span class="text-uppercase letter-spacing-2">/ per night</span> </span>
+              <h2 class="mb-4" aria-label="Room Type"><?php echo htmlspecialchars($room['room_name']) ?></h2>
               <p><?php echo htmlspecialchars($room['room_size']) ?> | <?php echo htmlspecialchars($room['room_features']) ?> | Club access</p>
               <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) : ?>
-                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-white">Book Now</a></p>
+                <p><a href="/booking.php?room_type_id=<?php echo htmlspecialchars($room['room_type_id']) ?>" class="btn btn-primary text-black" style="color: #333 !important;">Book Now</a></p>
               <?php else : ?>
-                <p><button class="btn btn-primary text-white" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms.">Book Now</button></p>
+                <p><button class="btn btn-primary text-black" disabled data-toggle="tooltip" data-placement="top" title="Please log in to book rooms." style="color: #333 !important;">Book Now</button></p>
               <?php endif; ?>
             </div>
           </div>
@@ -330,6 +331,7 @@ include "head.inc.php";
       endforeach; ?>
     </div>
   </section>
+    </main>
 
   <!-- Start of footer -->
   <?php

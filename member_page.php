@@ -55,7 +55,7 @@ $email = $_SESSION['email'];
                       <label for="adults" class="font-weight-bold text-black">No. of Rooms</label>
                       <div class="field-icon-wrap">
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="adults" class="form-control">
+                        <select name="" id="adults" class="form-control" style="color: #333;">
                           <option value="">1</option>
                           <option value="">2</option>
                           <option value="">3</option>
@@ -67,7 +67,7 @@ $email = $_SESSION['email'];
                       <label for="children" class="font-weight-bold text-black">Pax</label>
                       <div class="field-icon-wrap">
                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        <select name="" id="children" class="form-control">
+                        <select name="" id="children" class="form-control" style="color: #333;">
                           <option value="">1</option>
                           <option value="">2</option>
                           <option value="">3</option>
@@ -78,7 +78,7 @@ $email = $_SESSION['email'];
                   </div>
                 </div>
                 <div class="col-md-6 col-lg-3 align-self-end">
-                  <button type="submit" class="btn btn-primary btn-block text-white">Check Availabilty</button>
+                  <button type="submit" class="btn btn-primary btn-block" style="color: #333;">Check Availabilty</button>
                 </div>
               </div>
             </form>
@@ -181,22 +181,22 @@ $email = $_SESSION['email'];
                     <?php
                     // Display solid stars for the whole number part of the rating
                     for ($i = 0; $i < floor($reviewsData[$room['room_type_id']]['average_rating']); $i++) {
-                      echo '<i class="fa fa-star" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star" aria-hidden="true" style="color: #333;"></i>';
                     }
                     // If there's a half, display a half star
                     if ($reviewsData[$room['room_type_id']]['average_rating'] - floor($reviewsData[$room['room_type_id']]['average_rating']) >= 0.5) {
-                      echo '<i class="fa fa-star-half-alt" aria-hidden="true"></i>';
+                      echo '<i class="fa fa-star-half-alt" aria-hidden="true" style="color: #333;"></i>';
                     }
                     ?>
                   </span>
-                  <span class="review-count">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
+                  <span class="review-count" style="color: #333;">(<?php echo $reviewsData[$room['room_type_id']]['review_count']; ?> reviews)</span>
                 </div>
               <?php else : ?>
                 <div class="room-rating">
-                  <span class="no-reviews">No reviews yet</span>
+                  <span class="no-reviews" style="color: #333;">No reviews yet</span>
                 </div>
               <?php endif; ?>
-                <span class="text-uppercase letter-spacing-1">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
+                <span class="text-uppercase letter-spacing-1" style="color: #333;">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
               </div>
             </a>
           </div>
@@ -219,7 +219,7 @@ $email = $_SESSION['email'];
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/maison.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">March 15, 2023</span>
+                <span class="meta-post" style="color: #333;">March 15, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Maison Boulud</a></h2>
                 <p>Set to make its much anticipated debut in Singapore. Maison Boulud is situated along the waterfront promenade in our hotel. With its interior exuding timeless charm and elegance, indulge in quintessential French dishes that beautifully encapsulates the essence of French cuisine.</p>
               </div>
@@ -230,7 +230,7 @@ $email = $_SESSION['email'];
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/winedinner.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">March 20, 2023</span>
+                <span class="meta-post" style="color: #333;">March 20, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Wakuda Grace Wine Dinner</a></h2>
                 <p>Experience an exclusive evening with Head Winemaker Ayana Misawa as you savour an exquisite 5-course wine dinner paired with Grace wines from Yamanashi, Japan.</p>
               </div>
@@ -240,7 +240,7 @@ $email = $_SESSION['email'];
             <div class="media media-custom d-block mb-4 h-100">
               <a href="#" class="mb-4 d-block"><img src="images/afternoontea.jpg" alt="Image placeholder" class="img-fluid"></a>
               <div class="media-body">
-                <span class="meta-post">29 March, 2023</span>
+                <span class="meta-post" style="color: #333;">29 March, 2023</span>
                 <h2 class="mt-0 mb-3"><a href="#">Renku Bar & Lounge: Afternoon Tea</a></h2>
                 <p>Indulge in seasonal blooms and British delicacies with decadent three-tiered afternoon tea sets. Each creation is a delicious symphony of refined flavors that will mesmerize your taste buds.</p>
               </div>

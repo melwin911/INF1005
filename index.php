@@ -203,7 +203,7 @@ $headSection = "nonmember_head.inc.php";
                 </div>
               <?php else : ?>
                 <div class="room-rating">
-                  <span class="no-reviews">No reviews yet</span>
+                  <span class="no-reviews" style="color: #333">No reviews yet</span>
                 </div>
               <?php endif; ?>
                 <span class="text-uppercase letter-spacing-1" style="color: #333;">$ <?php echo htmlspecialchars($room['room_price_sgd']); ?> / per night</span>
