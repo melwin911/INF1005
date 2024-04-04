@@ -28,30 +28,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     renderNavbar('About');
     ?>
 
-        <!-- start of head section -->
-        <!-- <section class="site-hero inner-page overlay" style="background-image: url(images/slider-6.jpg)" >
-      <div class="container">
-        <div class="row site-hero-inner justify-content-center align-items-center">
-          <div class="col-md-10 text-center" data-aos="fade">
-            <h1 class="heading mb-3">About Us</h1>
-            <ul class="custom-breadcrumbs mb-4">
-              <li><a href="index.php">Home</a></li>
-              <li>&bullet;</li>
-              <li><a href="rooms.php">Rooms</a></li>
-              <li>&bullet;</li>
-              <li>About</li>
-              <li>&bullet;</li>
-              <li><a href="registration.php">Registration</a></li>
-              <li>&bullet;</li>
-              <li><a href="login.php">Login</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section> -->
-<!-- end of head section -->
-
-    <div class="container section">
+    
+  <main>
+  
+  <div class="container section">
 
       <div class="row justify-content-center text-center mb-5">
         <div class="col-md-5 mb-2">
@@ -89,15 +69,15 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       <div class="col-md">
         <!-- Google Map embed code -->
         <div class="google-map text-center">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.665394053245!2d103.84620671172271!3d1.3774387614783004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da16e96db0a1ab%3A0x3d0be54fbbd6e1cd!2sSingapore%20Institute%20of%20Technology%20(SIT%40NYP)!5e0!3m2!1sen!2ssg!4v1711283076538!5m2!1sen!2ssg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.665394053245!2d103.84620671172271!3d1.3774387614783004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da16e96db0a1ab%3A0x3d0be54fbbd6e1cd!2sSingapore%20Institute%20of%20Technology%20(SIT%40NYP)!5e0!3m2!1sen!2ssg!4v1711283076538!5m2!1sen!2ssg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" aria-label="Location of Singapore Institute of Technology (SIT@NYP)"></iframe>
         </div>
       </div>
       <div class="col-md">
-        <h4>5 HOTEL</h4>
+        <h2>5 HOTEL</h2>
         <p><span class="d-block">Singapore Institite of Technology @ NYP</span></p>
         <p><span class="d-block"><span class="ion-ios-location h5 mr-3 text-primary"></span>172A Ang Mo Kio Avenue 8, Singapore 567739</span></p>
-        <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span><a href="tel:+6565921189">(+65) 6592 1189</a></span></p>
-        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span> <a href="mailto:enquiries@fivestarhotel.com">enquiries@fivestarhotel.com</span></p>
+        <p><span class="d-block"><span class="ion-ios-telephone h5 mr-3 text-primary"></span><a href="tel:+6565921189" style="color: #333">(+65) 6592 1189</a></span></p>
+        <p><span class="d-block"><span class="ion-ios-email h5 mr-3 text-primary"></span> <a href="mailto:enquiries@fivestarhotel.com" aria-label="Email Five Star Hotel" style="color: #333">enquiries@fivestarhotel.com</a></span></p>
       </div>
     </div>
   </div>
@@ -138,8 +118,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         
       </div>
     </div>
+
+  </main>
     
- <!-- Start of footer -->
+
  <?php
     include "footer.inc.php";
     ?>
