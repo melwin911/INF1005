@@ -41,6 +41,7 @@ $navBar = "navbar.inc.php"; // Default to non-member navbar
 
             <div class="mb-3">
                 <ul style="list-style: none; padding: 0;">
+                    <li><label>Gender: (COMPULSORY)</label></li>
                     <li>
                         <input type="radio" id="male" name="gender" value="male" required>
                         <label for="male">Male</label>
