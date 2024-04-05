@@ -122,7 +122,7 @@ if (!$config) {
                 <p>Price per night: $<?php echo htmlspecialchars($roomDetails['price_per_night']); ?></p>
 
                 <!-- Booking form -->
-                <form action="update_cart.php" method="post">
+                <form action="update_cart.php" method="post" onsubmit="return validateBooking()">
                     <input type="hidden" name="item_id" value="<?= htmlspecialchars($bookingId) ?>">
 
                     <div class="form-group">
@@ -215,6 +215,36 @@ if (!$config) {
 
         // Calculate initial total in case the form is pre-filled or when revisiting the page
         calculateTotal();
+    </script>
+        <script>
+        function validateBooking() {
+            const checkInDateInput = document.getElementById('check_in_date');
+            const checkOutDateInput = document.getElementById('check_out_date');
+
+            // 1. Check if check-in date is not a historical date
+            const currentDate = new Date();
+            const checkInDate = new Date(checkInDateInput.value);
+            if (checkInDate < currentDate) {
+                alert("Please select a future date for check-in.");
+                return false;
+            }
+
+            // 2. Check if check-in date is before check-out date
+            const checkOutDate = new Date(checkOutDateInput.value);
+            if (checkInDate >= checkOutDate) {
+                alert("Check-out date must be after check-in date.");
+                return false;
+            }
+
+            // 3. Check if check-in date is not the same day as check-out date
+            const diffInDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+            if (diffInDays < 1) {
+                alert("Check-in and check-out dates cannot be the same day.");
+                return false;
+            }
+
+            return true; // Form is valid
+        }
     </script>
 </body>
 
