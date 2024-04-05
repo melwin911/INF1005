@@ -105,6 +105,7 @@ function storeTokenForUser($email, $token)
                 if (!$stmt->execute()) {
                     $errorMsg = "Failed to execute SQL statement: " . $stmt->error;
                     $success = false;
+                    $stmt->close();
                 }
             }
             // Close the statement
@@ -130,7 +131,8 @@ function onLogin($email, $rememberme, $secretKey) {
             
             // Generate the JWT using the payload, secret key, and specifying the HS256 algorithm
             $jwt = JWT::encode($payload, $secretKey, 'HS256');
-            $result = storeTokenForUser($email, $jwt); // Store JWT in your database against the user for verification next time they log in
+            $hashedToken = password_hash($jwt, PASSWORD_DEFAULT);
+            $result = storeTokenForUser($email, $hashedToken); // Store hashed JWT in the database against the user for verification next time they log in
             $success = $result['success'];
             $errorMsg = $result['errorMsg'];
             if (!$success) {
@@ -142,6 +144,8 @@ function onLogin($email, $rememberme, $secretKey) {
                 setcookie('rememberme', $cookie, [
                     'expires' => time() + (86400 * 30), // Token expires in 30 days
                     'path' => '/',
+                    'httponly' => true, // Prevent JavaScript from accessing the cookie & prevents client-side scripts from accessing it
+                    'samesite' => 'Strict' // Control cross-site request forgery (CSRF) risks.
                 ]);
             }
         }
@@ -185,31 +189,27 @@ function rememberMe($secretKey) {
     // Check if a 'rememberme' cookie exists
     if (isset($_COOKIE['rememberme'])) {
         list($email, $jwt) = explode(':', $_COOKIE['rememberme'], 2); // Extract the email and JWT from the 'rememberme' cookie
-        $result = fetchTokenByEmail($email); // Fetch the token from the database
-        $jwtFromDatabase = $result['token'];
-        
-        if ($jwtFromDatabase == null) { // If there is no token in the database or an error occurred
-            return false;
-        } else {
-            if ($jwt == $jwtFromDatabase) { // Compare the JWT from the cookie with the one from the database
-                try {
-                    $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256')); // Decode the JWT
-                    // If decoding is successful
-                    if ($decoded) {
-                        $_SESSION['loggedin'] = true;
-                        $_SESSION['email'] = $email;
-                        return true;
-                    }
-                    
-                } catch (ExpiredException $e) { // Handle expired token
-                } catch (SignatureInvalidException $e) { // Handle invalid signature - potential tampering
-                } catch (BeforeValidException $e) { // Handle token being used before it's valid
-                } catch (UnexpectedValueException $e) { // Handle exceptions for other JWT-related errors, such as incorrect encoding or claims
-                } catch (Exception $e) { //Handle any other exceptions
-                }
-            } else {
-                return false;
+
+        try {
+            // Decode the JWT to check if the token is still valid
+            $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
+
+            // If the JWT is successfully decoded, verify it against the database token
+            $result = fetchTokenByEmail($email);
+            $hashedToken = $result['token'];
+
+            // Proceed with database token comparison only if decoding was successful
+            if ($hashedToken !== null && password_verify($jwt, $hashedToken)) {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['email'] = $email;
+                return true; // Token is valid and matches the database
             }
+            
+        } catch (ExpiredException $e) { // Handle expired token
+        } catch (SignatureInvalidException $e) { // Handle invalid signature - potential tampering
+        } catch (BeforeValidException $e) { // Handle token being used before it's valid
+        } catch (UnexpectedValueException $e) { // Handle exceptions for other JWT-related errors, such as incorrect encoding or claims
+        } catch (Exception $e) { //Handle any other exceptions
         }
     } else {
         return false;

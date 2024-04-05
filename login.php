@@ -32,11 +32,11 @@ $navBar = "navbar.inc.php"; // Default to non-member navbar
         <form action="process_login.php" method="post"> 
             <div class="mb-3"> 
                 <label for="email" class="form-label">Email:</label> 
-                <input required maxlength="45" type="email" id="email" name="email" class="form-control" placeholder="Enter email"> 
+                <input required maxlength="45" type="email" id="email" name="email" class="form-control" placeholder="Enter email (COMPULSORY)"> 
             </div> 
             <div class="mb-3"> 
                 <label for="pwd" class="form-label">Password:</label> 
-                <input required type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password"> 
+                <input required type="password" id="pwd" name="pwd" class="form-control" placeholder="Enter password (COMPULSORY)"> 
             </div> 
             <div class="mb-3 form-check">
                 <input type="checkbox" id="rememberme" name="rememberme" class="form-check-input">
