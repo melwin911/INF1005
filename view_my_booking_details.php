@@ -164,7 +164,7 @@ function hasSubmittedReview($booking_id)
                                     <input type="hidden" name="booking_id" value="<?= $booking['booking_id'] ?>">
                                     <div class="form-group">
                                         <label for="rating">Rating:</label>
-                                        <select class="form-control" id="rating" name="rating">
+                                        <select class="form-control" id="rating" name="rating" required>
                                             <option value="1">1 Star</option>
                                             <option value="2">2 Stars</option>
                                             <option value="3">3 Stars</option>
@@ -174,7 +174,7 @@ function hasSubmittedReview($booking_id)
                                     </div>
                                     <div class="form-group">
                                         <label for="review_text">Review:</label>
-                                        <textarea class="form-control" id="review_text" name="review_text" rows="3"></textarea>
+                                        <textarea class="form-control" id="review_text" name="review_text" rows="3" required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit Review</button>
                                 </form>
