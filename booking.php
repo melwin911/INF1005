@@ -172,7 +172,11 @@ if (!$config) {
                     <p id="totalPrice" class="font-weight-bold"></p>
                 </div>
 
+                <?php if ($availableRooms > 0) : ?>
                 <button type="submit" class="btn btn-primary">Add to Booking Cart</button>
+                <?php else : ?>
+                    <button type="submit" class="btn btn-primary" disabled>Fully Booked</button>
+                <?php endif; ?>
             </form>
             <br>
         <?php else : ?>

@@ -255,7 +255,7 @@ include "head.inc.php";
                     </a>
                   <?php else : ?>
                     <div class="room-rating">
-                      <span class="no-reviews" style="color: #333;">No reviews yet</span>
+                      <span class="no-reviews" style="color: #333; font-weight: bold;">No reviews yet</span>
                     </div>
                   <?php endif; ?>
                   <p><?php echo htmlspecialchars($room['room_description']) ?> pax</p>
